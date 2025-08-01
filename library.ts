@@ -50,15 +50,15 @@ export async function backdoor_server(ns: NS, server_fragments: { "name": string
 
 /** @param {NS} ns */
 export function make_network_map(ns: NS) {
-  ns.write("network_map.txt", "flowchart TD\n", "w")
+  ns.write("network_map.txt", "flowchart TD;", "w")
   const servers = get_servers(ns);
   for (const server in servers) {
     // ns.tprintf("id%s[%s]", server, servers[server])
-    const id_name = "id" + server + "[" + servers[server] + "]\n"
+    const id_name = "id" + server + "[" + servers[server] + "];"
     ns.write("network_map.txt", id_name, "a")
     for (const scanned_server of ns.scan(servers[server])) {
       if (servers.indexOf(scanned_server) > server) {
-        const server_name = "id" + server + " --- id" + servers.indexOf(scanned_server) + "\n";
+        const server_name = "id" + server + " --- id" + servers.indexOf(scanned_server) + ";";
         ns.write("network_map.txt", server_name, "a")
         //ns.tprintf("id%s --- id%s", server, servers.indexOf(scanned_server));
       }
