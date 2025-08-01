@@ -1,15 +1,16 @@
 import { quiet_methods } from "library.js"
-import { NS, GymType } from "@ns";
+import { NS } from "@ns";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
+
   quiet_methods(ns, ["disableLog", "sleep", "singularity.upgradeHomeRam"]);
   let loop_count = 0;
   let commiting_crimes = false;
   let gang_setup_needed = true;
   const upgrade_timing = 60;
   const gang_timing = 30;
-  const combat_skills = [GymType.strength, GymType.dexterity, GymType.defense, GymType.agility];
+  const combat_skills = [ns.enums.GymType.strength, ns.enums.GymType.dexterity, ns.enums.GymType.defense, ns.enums.GymType.agility];
   do {
     if (loop_count % upgrade_timing == 0) {
       ns.singularity.upgradeHomeRam();
