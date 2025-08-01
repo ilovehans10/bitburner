@@ -20,8 +20,33 @@ export async function main(ns: NS) {
       }
     }
   } while (already_scanned.length < found_servers.length)
+  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }, { "server": "w0r1d_d43m0n", "faction": "" }]
+  for (const server of servers) {
+    if (ns.hasRootAccess(server.server)) {
+      await backdoor_server(ns, server_list, server.server);
+      ns.singularity.joinFaction(server.faction);
+    }
+  }
 }
 
+function find_path(server_fragments: { "name": string, "path_home": string }[], target: string) {
+  const path = [target];
+  while (path.at(-1) != "home") {
+    //findIndex implmentation from https://stackoverflow.com/questions/11258077/how-to-find-index-of-an-object-by-key-and-value-in-an-javascript-array
+    const next_server = server_fragments[server_fragments.findIndex(p => p.name == path.at(-1))].path_home;
+    path.push(next_server);
+  }
+  return path
+}
+
+export async function backdoor_server(ns: NS, server_fragments: { "name": string, "path_home": string }[], target: string) {
+  const path = find_path(server_fragments, target);
+  for (const server_hop of path.reverse()) {
+    ns.singularity.connect(server_hop)
+  }
+  await ns.singularity.installBackdoor();
+  ns.singularity.connect("home");
+}
 
 /** @param {NS} ns */
 export function make_network_map(ns: NS) {
