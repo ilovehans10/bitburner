@@ -4,21 +4,22 @@ import { NS } from "@ns";
 export async function main(ns: NS) {
   quiet_methods(ns, ["scan"]);
   const already_scanned: string[] = [];
-  const server_list = [{ "name": "home", "path_home": [] }];
-  const output_list = ["home"];
+  const server_list = [{ "name": "home", "path_home": "" }];
+  const found_servers = ["home"];
   do {
-    for (const item_to_scan of server_list) {
-      if (!already_scanned.includes(item_to_scan.name)) {
-        const scan_result = ns.scan(item_to_scan.name);
-        already_scanned.push(item_to_scan.name);
+    for (const item_to_scan of found_servers) {
+      if (!already_scanned.includes(item_to_scan)) {
+        const scan_result = ns.scan(item_to_scan);
+        already_scanned.push(item_to_scan);
         for (const new_item of scan_result) {
-          if (!output_list.includes(new_item)) {
-            output_list.push(new_item);
+          if (!found_servers.includes(new_item)) {
+            server_list.push({ "name": new_item, "path_home": item_to_scan })
+            found_servers.push(new_item);
           }
         }
       }
     }
-  } while (already_scanned.length < output_list.length)
+  } while (already_scanned.length < found_servers.length)
 }
 
 
