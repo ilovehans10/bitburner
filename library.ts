@@ -4,8 +4,11 @@ import { NS } from "@ns";
 export async function main(ns: NS) {
   quiet_methods(ns, ["scan"]);
   make_path_file(ns);
-  const server_objects = JSON.parse(ns.read("json/server_paths.json"));
-  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }, { "server": "w0r1d_d43m0n", "faction": "" }]
+  const server_objects: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
+  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }]
+  if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
+    servers.push({ "server": "w0r1d_d43m0n", "faction": "" })
+  }
   for (const server of servers) {
     if (ns.hasRootAccess(server.server)) {
       await backdoor_server(ns, server_objects, server.server);
