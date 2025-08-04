@@ -1,5 +1,5 @@
 import { NS } from "@ns";
-import { make_network_map as start_functions } from "library";
+import { start_functions } from "library";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {

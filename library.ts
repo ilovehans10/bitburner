@@ -18,8 +18,8 @@ export async function main(ns: NS) {
 }
 
 export function start_functions(ns: NS) {
-  make_network_map(ns);
   make_server_file(ns);
+  make_network_map(ns);
   make_path_file(ns);
 }
 
