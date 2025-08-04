@@ -3,8 +3,20 @@ import { NS } from "@ns";
 /** @param {NS} ns */
 export async function main(ns: NS) {
   quiet_methods(ns, ["scan"]);
+  make_path_file(ns);
+  const server_objects = JSON.parse(ns.read("json/server_paths.json"));
+  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }, { "server": "w0r1d_d43m0n", "faction": "" }]
+  for (const server of servers) {
+    if (ns.hasRootAccess(server.server)) {
+      await backdoor_server(ns, server_objects, server.server);
+      ns.singularity.joinFaction(server.faction);
+    }
+  }
+}
+
+export function make_path_file(ns: NS) {
   const already_scanned: string[] = [];
-  const server_list = [{ "name": "home", "path_home": "" }];
+  const server_objects = [{ "name": "home", "path_home": "" }];
   const found_servers = ["home"];
   do {
     for (const item_to_scan of found_servers) {
@@ -13,20 +25,14 @@ export async function main(ns: NS) {
         already_scanned.push(item_to_scan);
         for (const new_item of scan_result) {
           if (!found_servers.includes(new_item)) {
-            server_list.push({ "name": new_item, "path_home": item_to_scan })
+            server_objects.push({ "name": new_item, "path_home": item_to_scan })
             found_servers.push(new_item);
           }
         }
       }
     }
   } while (already_scanned.length < found_servers.length)
-  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }, { "server": "w0r1d_d43m0n", "faction": "" }]
-  for (const server of servers) {
-    if (ns.hasRootAccess(server.server)) {
-      await backdoor_server(ns, server_list, server.server);
-      ns.singularity.joinFaction(server.faction);
-    }
-  }
+  ns.write("json/server_paths.json", JSON.stringify(server_objects), "w");
 }
 
 function find_path(server_fragments: { "name": string, "path_home": string }[], target: string) {
