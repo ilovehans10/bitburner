@@ -1,9 +1,9 @@
 import { NS } from "@ns";
-import { make_network_map } from "library";
+import { make_network_map as start_functions } from "library";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
-  make_network_map(ns);
+  start_functions(ns);
   ns.tprintf("Network Map made and can be accessed by copying the content of network_map.txt to mermaid.live");
 
   const should_upgrade = ns.args[0];

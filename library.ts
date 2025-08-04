@@ -14,7 +14,13 @@ export async function main(ns: NS) {
   }
 }
 
-export function make_path_file(ns: NS) {
+export function start_functions(ns: NS) {
+  make_network_map(ns);
+  make_server_file(ns);
+  make_path_file(ns);
+}
+
+function make_path_file(ns: NS) {
   const already_scanned: string[] = [];
   const server_objects = [{ "name": "home", "path_home": "" }];
   const found_servers = ["home"];
@@ -33,6 +39,26 @@ export function make_path_file(ns: NS) {
     }
   } while (already_scanned.length < found_servers.length)
   ns.write("json/server_paths.json", JSON.stringify(server_objects), "w");
+}
+
+function make_server_file(ns: NS) {
+  quiet_methods(ns, ["scan"]);
+  const already_scanned: string[] = [];
+  const output_list = ["home"];
+  do {
+    for (const item_to_scan of output_list) {
+      if (!already_scanned.includes(item_to_scan)) {
+        const scan_result = ns.scan(item_to_scan);
+        already_scanned.push(item_to_scan);
+        for (const new_item of scan_result) {
+          if (!output_list.includes(new_item)) {
+            output_list.push(new_item);
+          }
+        }
+      }
+    }
+  } while (already_scanned.length < output_list.length)
+  ns.write("json/server_names.json", JSON.stringify(output_list), "w");
 }
 
 function find_path(server_fragments: { "name": string, "path_home": string }[], target: string) {
@@ -96,24 +122,8 @@ export function get_best_target(ns: NS) {
 }
 
 /** @param {NS} ns */
-export function get_servers(ns: NS) {
-  quiet_methods(ns, ["scan"]);
-  const already_scanned: string[] = [];
-  const output_list = ["home"];
-  do {
-    for (const item_to_scan of output_list) {
-      if (!already_scanned.includes(item_to_scan)) {
-        const scan_result = ns.scan(item_to_scan);
-        already_scanned.push(item_to_scan);
-        for (const new_item of scan_result) {
-          if (!output_list.includes(new_item)) {
-            output_list.push(new_item);
-          }
-        }
-      }
-    }
-  } while (already_scanned.length < output_list.length)
-  return output_list;
+function get_servers(ns: NS) {
+  return JSON.parse(ns.read("json/server_names.json"));
 }
 
 /** @param {NS} ns */
