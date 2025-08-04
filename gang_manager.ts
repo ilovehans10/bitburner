@@ -34,7 +34,7 @@ export async function main(ns: NS) {
   //let tasks = ["Unassigned", "Ransomware", "Phishing", "Identity Theft", "DDoS Attacks", "Plant Virus", "Fraud & Counterfeiting", "Money Laundering", "Cyberterrorism", "Ethical Hacking", "Vigilante Justice", "Train Combat", "Train Hacking", "Train Charisma", "Territory Warfare"];
   let loop_count = -1;
   while (!ns.gang.inGang()) {
-    ns.asleep(10000);
+    await ns.asleep(10000);
   }
   while (true) {
     loop_count += 1;
