@@ -37,6 +37,7 @@ export async function main(ns: NS) {
   while (!ns.gang.inGang()) {
     await ns.asleep(10000);
   }
+  ns.gang.setTerritoryWarfare(false);
   while (true) {
     loop_count += 1;
     gang_members = shuffle(ns.gang.getMemberNames());
