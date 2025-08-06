@@ -1,9 +1,9 @@
-import { get_hacked_servers, get_best_target } from "library.js"
+import { get_hacked_servers, get_best_target, faction_joiner } from "library.js"
 import { NS } from "@ns";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
-  const methods_to_quiet = ["disableLog", "brutessh", "relaysmtp", "httpworm", "sqlinject", "ftpcrack", "getServerUsedRam", "getServerMaxRam", "scp", "nuke", "getServerNumPortsRequired", "getServerRequiredHackingLevel", "getHackingLevel", "scan", "exec", "asleep"];
+  const methods_to_quiet = ["ALL"];
   for (const method_to_quiet of methods_to_quiet) {
     ns.disableLog(method_to_quiet);
   }
@@ -11,6 +11,7 @@ export async function main(ns: NS) {
   const kill_old_scripts = ns.args[0];
   const keep_alive = ns.args[1];
   const blacklist = ["home"];
+  let faction_joined_count = 0;
   let loop_count = 0;
   let new_servers = [];
   let changed_servers = [];
@@ -49,6 +50,7 @@ export async function main(ns: NS) {
         }
       }
     }
+
     ns.clearPort(1);
     ns.clearPort(2);
     ns.clearPort(3);
@@ -61,6 +63,15 @@ export async function main(ns: NS) {
       }
       ns.writePort(4, "Gangs Ready")
     }
+
+    if (new_servers.length >= 1) {
+      const new_faction_joined_count = await faction_joiner(ns);
+      if (new_faction_joined_count > faction_joined_count) {
+        ns.tprintf("Joined new faction");
+        faction_joined_count = new_faction_joined_count
+      }
+    }
+
     if (loop_count % 10 == 0) {
       ns.printf("%s", (loop_count / 10).toString().padStart(5, "0").padEnd(30, "-"));
       ns.printf("Karma: %i", ns.heart.break());
