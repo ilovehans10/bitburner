@@ -13,6 +13,7 @@ export async function main(ns: NS) {
   const task_wanted_levels = { "Cyberterrorism": 2, "Money Laundering": 1, "Ethical Hacking": -1 }
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
+  const hacking_recruit_threshold = 500;
   const hacking_training_threshold = 1500;
   const charisma_training_threshold = 50;
   const combat_training_threshold = 1500;
@@ -66,7 +67,9 @@ export async function main(ns: NS) {
           } else {
             bad_action = "Money Laundering"
           }
-          if (member_information.hack < hacking_training_threshold) {
+          if (gang_members.length < 6 && member_information.hack > hacking_recruit_threshold) {
+            selected_task = "Cyberterrorism";
+          } else if (member_information.hack < hacking_training_threshold) {
             selected_task = "Train Hacking";
           } else if (member_information.cha < charisma_training_threshold) {
             selected_task = "Cyberterrorism";
