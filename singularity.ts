@@ -10,10 +10,13 @@ export async function main(ns: NS) {
   let gang_setup_needed = true;
   const upgrade_timing = 60;
   const gang_timing = 30;
+  const upgrade_threshold_multiplier = 2;
   const combat_skills = [ns.enums.GymType.strength, ns.enums.GymType.dexterity, ns.enums.GymType.defense, ns.enums.GymType.agility];
   do {
     if (loop_count % upgrade_timing == 0) {
-      ns.singularity.upgradeHomeRam();
+      if (ns.singularity.getUpgradeHomeRamCost() <= (ns.getPlayer().money * upgrade_threshold_multiplier)) {
+        ns.singularity.upgradeHomeRam();
+      }
     }
     if (gang_setup_needed && loop_count % gang_timing == 0) {
       if (ns.heart.break() > -54000) {
