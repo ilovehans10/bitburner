@@ -95,7 +95,7 @@ export function make_network_map(ns: NS) {
   const servers = get_servers(ns);
   for (const server in servers) {
     // ns.tprintf("id%s[%s]", server, servers[server])
-    const id_name = "id" + server + "[" + servers[server] + "];"
+    const id_name = "id" + server + "[" + servers[server] + "<br>" + ns.getServerRequiredHackingLevel(servers[server]) + "];"
     ns.write("network_map.txt", id_name, "a")
     for (const scanned_server of ns.scan(servers[server])) {
       if (servers.indexOf(scanned_server) > server) {
