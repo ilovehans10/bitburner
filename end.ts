@@ -12,7 +12,7 @@ export async function main(ns: NS) {
     const element = { name: augment, price: price };
     output_list.push(element);
   }
-  output_list.sort((a, b) => { return a.price < b.price });
+  output_list.sort((a, b) => { return b.price - a.price });
   for (const augment of output_list) {
     ns.printf("\"%s\": %s", augment.name, augment.price);
   }
@@ -27,7 +27,7 @@ export async function main(ns: NS) {
     }
   }
   const print_list = [].concat(augments).concat(extra_augments);
-  print_list.sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) < ns.singularity.getAugmentationBasePrice(b) });
+  print_list.sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) - ns.singularity.getAugmentationBasePrice(b) });
   if (extra_augments.length > 0) {
     ns.tprintf("Augment list missing: %s", extra_augments.join(", "));
     ns.printf("[\"%s\"]", print_list.join("\", \""))
