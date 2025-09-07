@@ -158,6 +158,10 @@ export function get_hacked_servers(ns: NS) {
   }
   const return_servers: string[] = [];
   for (const cannidate_server of servers_to_check) {
+    if (ns.hasRootAccess(cannidate_server)) {
+      return_servers.push(cannidate_server);
+      continue;
+    }
     const hacking_level_high_enough = ns.getHackingLevel() >= ns.getServerRequiredHackingLevel(cannidate_server);
     const enough_ports_hackable = ns.getServerNumPortsRequired(cannidate_server) <= port_tool_count;
     if (hacking_level_high_enough && enough_ports_hackable) {
