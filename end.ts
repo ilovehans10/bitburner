@@ -33,8 +33,9 @@ export async function main(ns: NS) {
     ns.printf("[\"%s\"]", print_list.join("\", \""))
   }
 
+  const all_factions = [ns.gang.getGangInformation().faction].concat(factions);
 
-  for (const faction of factions) {
+  for (const faction of all_factions) {
     for (let i = 0; i < 4; i++) {
       for (const augment of augments) {
         if (ns.singularity.purchaseAugmentation(faction, augment)) {
