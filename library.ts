@@ -13,15 +13,15 @@ export function start_functions(ns: NS) {
 
 export async function faction_joiner(ns: NS) {
   const server_objects: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
-  const servers = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }]
+  const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }]
   if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
-    servers.push({ "server": "w0r1d_d43m0n", "faction": "" })
+    faction_requirements.push({ "server": "w0r1d_d43m0n", "faction": "" })
   }
   let faction_joined_count = 0;
-  for (const server of servers) {
-    if (ns.hasRootAccess(server.server)) {
-      await backdoor_server(ns, server_objects, server.server);
-      if (ns.singularity.joinFaction(server.faction)) {
+  for (const faction of faction_requirements) {
+    if (ns.hasRootAccess(faction.server)) {
+      await backdoor_server(ns, server_objects, faction.server);
+      if (ns.singularity.joinFaction(faction.faction)) {
         faction_joined_count += 1;
       }
     }
