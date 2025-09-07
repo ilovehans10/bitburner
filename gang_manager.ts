@@ -6,14 +6,15 @@ export async function main(ns: NS) {
   quiet_methods(ns, ["disableLog", "asleep", "gang.purchaseEquipment", "gang.setMemberTask"])
 
   //ns.gang.createGang("NiteSec");
+  const gang_type = "Hack";
   const name_pool = ["greg", "wilson", "kutner", "eugine schwarts", "thriteen", "masters", "cuddy", "foreman", "chase", "taub", "cameron", "sam", "amber", "adams", "bosley", "park"];
   const all_equipment_raw = [["Baseball Bat"], ["Katana"], ["Glock 18C"], ["P90C"], ["Steyr AUG"], ["AK-47"], ["M15A10 Assault Rifle"], ["AWM Sniper Rifle"], ["Bulletproof Vest"], ["Full Body Armor"], ["Liquid Body Armor"], ["Graphene Plating Armor"], ["Ford Flex V20"], ["ATX1070 Superbike"], ["Mercedes-Benz S9001"], ["White Ferrari"], ["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const hack_equipment_raw = [["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const combat_members = ["greg", "kutner", "amber"];
-  const task_wanted_levels = { "Cyberterrorism": 2, "Money Laundering": 1, "Ethical Hacking": -1 }
+  const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficing": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 }
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
-  const hacking_recruit_threshold = 500;
+  const recruit_skill_threshold = 500;
   const hacking_training_threshold = 1500;
   const charisma_training_threshold = 50;
   const combat_training_threshold = 1500;
@@ -31,7 +32,7 @@ export async function main(ns: NS) {
   let all_equipment, hack_equipment;
   let clashing_currently = false;
   let clashing_cooldown = 0;
-  const actions = ["Cyberterrorism", "Money Laundering", "Ethical Hacking", "Train Hacking", "Train Charisma"];
+  const actions = ["Cyberterrorism", "Money Laundering", "Ethical Hacking", "Train Hacking", "Train Charisma", "Terrorism",];
   //let tasks = ["Unassigned", "Ransomware", "Phishing", "Identity Theft", "DDoS Attacks", "Plant Virus", "Fraud & Counterfeiting", "Money Laundering", "Cyberterrorism", "Ethical Hacking", "Vigilante Justice", "Train Combat", "Train Hacking", "Train Charisma", "Territory Warfare"];
   let loop_count = -1;
   while (!ns.gang.inGang()) {
@@ -53,38 +54,73 @@ export async function main(ns: NS) {
       for (const member of gang_members) {
         const member_information = ns.gang.getMemberInformation(member);
         if (!combat_members.includes(member) || my_gang_info.territory == 1) {
-          const ascension_results = ns.gang.getAscensionResult(member);
-          if (ascension_results) {
-            if (ascension_results.hack >= ascension_threshold || ascension_results.cha >= ascension_threshold) {
-              ns.gang.ascendMember(member);
-              ns.printf("Ascended: %s", member);
-            }
-          }
           let selected_task = "";
-          const bad_actions = ["Cyberterrorism", "Money Laundering"];
-          let bad_action;
-          if (respect_threshold > ns.gang.getGangInformation().respect) { // TODO: refactor to use faction rep
-            bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
-          } else {
-            bad_action = "Money Laundering"
-          }
-          if (gang_members.length < 6 && member_information.hack > hacking_recruit_threshold) {
-            selected_task = "Cyberterrorism";
-          } else if (member_information.hack < hacking_training_threshold) {
-            selected_task = "Train Hacking";
-          } else if (member_information.cha < charisma_training_threshold) {
-            selected_task = "Cyberterrorism";
-          } else if (ns.gang.getGangInformation().wantedPenalty > 5) {
-            if (wanted_gain_rate >= 0) {
-              selected_task = "Ethical Hacking";
+          if (gang_type == "Hack") {
+            const ascension_results = ns.gang.getAscensionResult(member);
+            if (ascension_results) {
+              if (ascension_results.hack >= ascension_threshold || ascension_results.cha >= ascension_threshold) {
+                ns.gang.ascendMember(member);
+                ns.printf("Ascended: %s", member);
+              }
+            }
+            const bad_actions = ["Cyberterrorism", "Money Laundering"];
+            let bad_action;
+
+            if (respect_threshold > ns.gang.getGangInformation().respect) { // TODO: refactor to use faction rep
+              bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
+            } else {
+              bad_action = "Money Laundering"
+            }
+            if (gang_members.length < 6 && member_information.hack > recruit_skill_threshold) {
+              selected_task = "Cyberterrorism";
+            } else if (member_information.hack < hacking_training_threshold) {
+              selected_task = "Train Hacking";
+            } else if (member_information.cha < charisma_training_threshold) {
+              selected_task = "Cyberterrorism";
+            } else if (ns.gang.getGangInformation().wantedPenalty > 5) {
+              if (wanted_gain_rate >= 0) {
+                selected_task = "Ethical Hacking";
+              } else {
+                selected_task = bad_action;
+              }
             } else {
               selected_task = bad_action;
             }
-          } else {
-            selected_task = bad_action;
+          } else if (gang_type == "Combat") {
+            const ascension_results = ns.gang.getAscensionResult(member);
+            if (ascension_results) {
+              if (ascension_results.agi >= ascension_threshold) {
+                ns.gang.ascendMember(member);
+                ns.printf("Ascended: %s", member);
+              }
+            }
+            const bad_actions = ["Terrorism", "Human Trafficking"];
+            let bad_action;
+
+            if (respect_threshold > ns.gang.getGangInformation().respect) { // TODO: refactor to use faction rep
+              bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
+            } else {
+              bad_action = "Human Trafficking"
+            }
+            if (gang_members.length < 6 && member_information.agi > recruit_skill_threshold) {
+              selected_task = "Terrorism";
+            } else if (member_information.agi < hacking_training_threshold) {
+              selected_task = "Train Combat";
+            } else if (member_information.cha < charisma_training_threshold) {
+              selected_task = "Terrorism";
+            } else if (ns.gang.getGangInformation().wantedPenalty > 5) {
+              if (wanted_gain_rate >= 0) {
+                selected_task = "Vigilante Justice";
+              } else {
+                selected_task = bad_action;
+              }
+            } else {
+              selected_task = bad_action;
+            }
           }
+
           ns.gang.setMemberTask(member, selected_task);
-          wanted_gain_rate += task_wanted_levels[selected_task];
+          wanted_gain_rate += hack_task_wanted_levels[selected_task];
           action_counts.set(selected_task, action_counts.get(selected_task) + 1);
 
           if (member_information.hack >= hacking_training_threshold * 3 && member_information.cha >= charisma_training_threshold * 1.2) {
