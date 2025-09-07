@@ -26,7 +26,7 @@ export async function main(ns: NS) {
       extra_augments.push(augment);
     }
   }
-  const print_list = [].concat(augments).concat(extra_augments);
+  const print_list = augments.concat(extra_augments);
   print_list.sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) - ns.singularity.getAugmentationBasePrice(b) });
   if (extra_augments.length > 0) {
     ns.tprintf("Augment list missing: %s", extra_augments.join(", "));
