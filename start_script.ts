@@ -36,7 +36,7 @@ export async function main(ns: NS) {
   let gang_script_ram;
   if (can_form_gang) {
     gang_script_ram = ns.getScriptRam("gang_manager.js");
-    if (ns.getHackingLevel() < 100) { ns.singularity.universityCourse("Rothman University", "Algorithms"); }
+    if (ns.getHackingLevel() < 100) { ns.singularity.universityCourse("Rothman University", "Algorithms", false); }
   } else {
     gang_script_ram = 0;
   }
