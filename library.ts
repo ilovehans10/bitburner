@@ -1,16 +1,28 @@
 import { NS } from "@ns";
 
-/** @param {NS} ns */
+/**
+ * Creates a file that holds all server names
+ * @param {NS} ns - netscript function object
+ */
 export async function main(ns: NS) {
   ns.tprintf("Library is empty")
 }
 
+/**
+ * meant to be run after augmentations are installed
+ * @param {NS} ns - netscript function object
+ */
 export function start_functions(ns: NS) {
   make_server_file(ns);
   make_network_map(ns);
   make_path_file(ns);
 }
 
+/**
+ * Joins all factions
+ * @param {NS} ns - netscript function object
+ * @returns - returns a number indicating the current number of factions joined
+ */
 export async function faction_joiner(ns: NS) {
   const server_objects: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
   const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }]
@@ -29,6 +41,10 @@ export async function faction_joiner(ns: NS) {
   return faction_joined_count;
 }
 
+/**
+ * Creates a file that holds information on how to recursively get back home from a server
+ * @param {NS} ns - netscript function object
+ */
 function make_path_file(ns: NS) {
   const already_scanned: string[] = [];
   const server_objects = [{ "name": "home", "path_home": "" }];
@@ -50,6 +66,10 @@ function make_path_file(ns: NS) {
   ns.write("json/server_paths.json", JSON.stringify(server_objects), "w");
 }
 
+/**
+ * Creates a file that holds all server names
+ * @param {NS} ns - netscript function object
+ */
 function make_server_file(ns: NS) {
   quiet_methods(ns, ["scan"]);
   const already_scanned: string[] = [];
@@ -70,7 +90,12 @@ function make_server_file(ns: NS) {
   ns.write("json/server_names.json", JSON.stringify(output_list), "w");
 }
 
-function find_path(server_fragments: { "name": string, "path_home": string }[], target: string) {
+/**
+ * Finds and Returns a path from the server passed to it back to home
+ * @param {{"name": string, "path_home": string}[]} server_fragments - a list of server fragments that will be used to find the path home
+ * @returns a list of strings that leads from the server back to home
+ */
+function find_path(server_fragments: { "name": string, "path_home": string }[], target: string): string[] {
   const path = [target];
   while (path.at(-1) != "home") {
     //findIndex implmentation from https://stackoverflow.com/questions/11258077/how-to-find-index-of-an-object-by-key-and-value-in-an-javascript-array
@@ -89,11 +114,15 @@ export async function backdoor_server(ns: NS, server_fragments: { "name": string
   ns.singularity.connect("home");
 }
 
-/** @param {NS} ns */
+/**
+ * Creates a file that holds a network map that can be viewed with mermaid.live
+ * @param {NS} ns - netscript function object
+ */
 export function make_network_map(ns: NS) {
   ns.write("network_map.txt", "flowchart TD;", "w")
   const servers = get_servers(ns);
   for (const server in servers) {
+    console.log(server)
     // ns.tprintf("id%s[%s]", server, servers[server])
     const id_name = "id" + server + "[" + servers[server] + "<br>" + ns.getServerRequiredHackingLevel(servers[server]) + "];"
     ns.write("network_map.txt", id_name, "a")
@@ -107,7 +136,11 @@ export function make_network_map(ns: NS) {
   }
 }
 
-/** @param {NS} ns */
+/**
+ * Returns the best target to hack
+ * @param {NS} ns - netscript function object
+ * @returns name of the best server to hack
+ */
 export function get_best_target(ns: NS) {
   quiet_methods(ns, ["disableLog", "getHackingLevel", "getServerRequiredHackingLevel", "getServerMaxMoney", "getServerMinSecurityLevel"]);
 
@@ -130,13 +163,21 @@ export function get_best_target(ns: NS) {
   return return_value;
 }
 
-/** @param {NS} ns */
-function get_servers(ns: NS) {
+/**
+ * returns all server names
+ * @param {NS} ns - netscript function object
+ * @returns returns a list of all server names
+ */
+function get_servers(ns: NS): string[] {
   return JSON.parse(ns.read("json/server_names.json"));
 }
 
-/** @param {NS} ns */
-export function get_hacked_servers(ns: NS) {
+/**
+ * This function first hacks all hackable servers and then returns a list of servers that have been hacked
+ * @param {NS} ns - netscript function object
+ * @returns a list of names of servers that are currently hacked
+ */
+export function get_hacked_servers(ns: NS): string[] {
   quiet_methods(ns, ["disableLog", "getHackingLevel", "getServerRequiredHackingLevel", "getServerNumPortsRequired"]);
 
   const servers_to_check = get_servers(ns);
