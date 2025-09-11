@@ -41,6 +41,7 @@ export async function main(ns: NS) {
   const gang_type = JSON.parse(ns.read("json/gang_type.json"));
 
   ns.gang.setTerritoryWarfare(false);
+
   while (true) {
     loop_count += 1;
     gang_members = shuffle(ns.gang.getMemberNames());

@@ -28,6 +28,7 @@ export async function main(ns: NS) {
   const total_ram = ns.getServerMaxRam("home");
   const can_form_gang = ns.heart.break() <= -54000;
   let spare_ram;
+
   if (total_ram <= 128) {
     spare_ram = 0;
   } else {
@@ -40,6 +41,7 @@ export async function main(ns: NS) {
   } else {
     gang_script_ram = 0;
   }
+
   const home_script_ram = ns.getScriptRam("homehack.js");
   const distro_script_ram = ns.getScriptRam("distribute.js");
   //const scripts_to_kill = ["gang_manager.js", "homehack.js", "distribute.js"];
