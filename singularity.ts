@@ -29,7 +29,13 @@ export async function main(ns: NS) {
           commiting_crimes = true;
         }
       } else {
-        ns.gang.createGang("NiteSec");
+        if (ns.getPlayer().factions.includes("Slum Snakes")) {
+          ns.gang.createGang("Slum Snakes");
+          ns.write("json/gang_type.json", JSON.stringify("Combat"), "w");
+        } else {
+          ns.gang.createGang("NiteSec");
+          ns.write("json/gang_type.json", JSON.stringify("Hack"), "w");
+        }
         gang_setup_needed = false;
       }
     }

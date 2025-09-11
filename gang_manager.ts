@@ -6,7 +6,6 @@ export async function main(ns: NS) {
   quiet_methods(ns, ["disableLog", "asleep", "gang.purchaseEquipment", "gang.setMemberTask"])
 
   //ns.gang.createGang("NiteSec");
-  const gang_type = "Hack";
   const name_pool = ["greg", "wilson", "kutner", "eugine schwarts", "thriteen", "masters", "cuddy", "foreman", "chase", "taub", "cameron", "sam", "amber", "adams", "bosley", "park"];
   const all_equipment_raw = [["Baseball Bat"], ["Katana"], ["Glock 18C"], ["P90C"], ["Steyr AUG"], ["AK-47"], ["M15A10 Assault Rifle"], ["AWM Sniper Rifle"], ["Bulletproof Vest"], ["Full Body Armor"], ["Liquid Body Armor"], ["Graphene Plating Armor"], ["Ford Flex V20"], ["ATX1070 Superbike"], ["Mercedes-Benz S9001"], ["White Ferrari"], ["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const hack_equipment_raw = [["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
@@ -38,6 +37,9 @@ export async function main(ns: NS) {
   while (!ns.gang.inGang()) {
     await ns.asleep(10000);
   }
+
+  const gang_type = JSON.parse(ns.read("json/gang_type.json"));
+
   ns.gang.setTerritoryWarfare(false);
   while (true) {
     loop_count += 1;
