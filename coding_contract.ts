@@ -19,6 +19,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Find Largest Prime Factor":
+            answer = solver_largest_prime_factor(contract_data);
+            solved = true;
+            break;
+
           default:
             ns.tprintf("Could not find solver for: %s on %s", contract_type, server)
             break;
@@ -56,4 +61,21 @@ function solver_grid_i(length: number, width: number): number {
 
   return solver_grid_i(length - 1, width)
     + solver_grid_i(length, width - 1);
+}
+
+function solver_largest_prime_factor(number: number) {
+  const factors: number[] = [];
+  let divisor = 2;
+  while (number > 1) {
+    while (number % divisor == 0) {
+      factors.push(divisor)
+      number = number / divisor
+    }
+    divisor += 1;
+    if (divisor * divisor > number) {
+      if (number > 1) { factors.push(number) }
+      break
+    }
+  }
+  return factors.reduce((a, b) => Math.max(a, b))
 }
