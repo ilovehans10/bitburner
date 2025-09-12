@@ -1,6 +1,9 @@
 import { NS, AutocompleteData } from "@ns";
 import { connect_to_server, get_servers } from "library";
 
+const alphabet_upper = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+const alphabet_lower = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
 export async function main(ns: NS) {
   const args = ns.args;
   if (args.length > 0) {
@@ -88,14 +91,13 @@ function solver_largest_prime_factor(number: number) {
 function solver_encryption_ii(plaintext: string, keyword: string): string {
   const plaintext_array = plaintext.split("");
   const keyword_array = keyword.split("");
-  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
   let encrypted_string = "";
   for (const character_index in plaintext_array) {
     const plaintext_character = plaintext_array[character_index]
     const keyword_character = keyword_array[Number(character_index) % keyword_array.length]
-    const plaintext_index = alphabet.indexOf(plaintext_character);
-    const keyword_index = alphabet.indexOf(keyword_character);
-    encrypted_string = encrypted_string.concat(alphabet[(plaintext_index + keyword_index) % alphabet.length])
+    const plaintext_index = alphabet_upper.indexOf(plaintext_character);
+    const keyword_index = alphabet_upper.indexOf(keyword_character);
+    encrypted_string = encrypted_string.concat(alphabet_upper[(plaintext_index + keyword_index) % alphabet_upper.length])
   }
   return encrypted_string;
 }
