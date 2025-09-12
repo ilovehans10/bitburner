@@ -32,7 +32,7 @@ export async function faction_joiner(ns: NS) {
   let faction_joined_count = 0;
   for (const faction of faction_requirements) {
     if (ns.hasRootAccess(faction.server)) {
-      await backdoor_server(ns, server_objects, faction.server);
+      await backdoor_server(ns, faction.server);
       if (ns.singularity.joinFaction(faction.faction)) {
         faction_joined_count += 1;
       }
@@ -105,13 +105,18 @@ function find_path(server_fragments: { "name": string, "path_home": string }[], 
   return path
 }
 
-export async function backdoor_server(ns: NS, server_fragments: { "name": string, "path_home": string }[], target: string) {
+export async function backdoor_server(ns: NS, target: string) {
+  connect_to_server(ns, target)
+  await ns.singularity.installBackdoor();
+  ns.singularity.connect("home");
+}
+
+export async function connect_to_server(ns: NS, target: string) {
+  const server_fragments: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
   const path = find_path(server_fragments, target);
   for (const server_hop of path.reverse()) {
     ns.singularity.connect(server_hop)
   }
-  await ns.singularity.installBackdoor();
-  ns.singularity.connect("home");
 }
 
 /**
@@ -168,7 +173,7 @@ export function get_best_target(ns: NS) {
  * @param {NS} ns - netscript function object
  * @returns returns a list of all server names
  */
-function get_servers(ns: NS): string[] {
+export function get_servers(ns: NS): string[] {
   return JSON.parse(ns.read("json/server_names.json"));
 }
 
