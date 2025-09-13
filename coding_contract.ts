@@ -32,6 +32,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Merge Overlapping Intervals":
+            answer = solver_overlapping_intervals(contract_data);
+            solved = true;
+            break;
+
           default:
             ns.tprintf("Could not find solver for: %s on %s", contract_type, server)
             break;
@@ -100,4 +105,28 @@ function solver_encryption_ii(plaintext: string, keyword: string): string {
     encrypted_string = encrypted_string.concat(alphabet_upper[(plaintext_index + keyword_index) % alphabet_upper.length])
   }
   return encrypted_string;
+}
+
+function solver_overlapping_intervals(intervals: number[][]) {
+  intervals.sort((a, b) => a[0] - b[0])
+  const index_list: number[] = [];
+  for (const interval in intervals) {
+    const merger_list = intervals.slice(Number(interval) + 1)
+    for (const merge_interval_index in merger_list) {
+      if (merger_list[merge_interval_index][0] <= intervals[interval][1]) {
+        index_list.push(Number(interval) + 1 + Number(merge_interval_index))
+      } else {
+        break;
+      }
+    }
+  }
+  const output_list: number[][] = [];
+  for (const interval in intervals) {
+    if (index_list.includes(Number(interval))) {
+      output_list[output_list.length - 1][1] = Math.max(intervals[interval][1], output_list[output_list.length - 1][1])
+    } else {
+      output_list.push(intervals[interval])
+    }
+  }
+  return output_list
 }
