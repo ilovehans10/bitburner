@@ -37,6 +37,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Algorithmic Stock Trader I":
+            answer = solver_stock_trader_i(contract_data);
+            solved = true;
+            break;
+
           case "Subarray with Maximum Sum":
             answer = solver_subarray_max_strings(contract_data);
             solved = true;
@@ -134,6 +139,15 @@ function solver_overlapping_intervals(intervals: number[][]) {
     }
   }
   return output_list
+}
+
+function solver_stock_trader_i(trades: number[]) {
+  const list_of_maxes: number[] = [];
+  trades.forEach((current_cost, index) => {
+    const largest_future_number = trades.slice(index).reduce((a, b) => Math.max(a, b))
+    list_of_maxes.push(Math.max(0, (largest_future_number - current_cost)))
+  });
+  return list_of_maxes.reduce((a, b) => Math.max(a, b))
 }
 
 function solver_subarray_max_strings(input_array: number[]) {
