@@ -37,6 +37,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Subarray with Maximum Sum":
+            answer = solver_subarray_max_strings(contract_data);
+            solved = true;
+            break;
+
           default:
             ns.tprintf("Could not find solver for: %s on %s", contract_type, server)
             break;
@@ -129,4 +134,19 @@ function solver_overlapping_intervals(intervals: number[][]) {
     }
   }
   return output_list
+}
+
+function solver_subarray_max_strings(input_array: number[]) {
+  const aggrigation_array: { "sum": number, "sub_array": number[] }[] = []
+  for (let start_index = 0; start_index < input_array.length; start_index++) {
+    for (let end_index = 0; end_index + start_index < input_array.length; end_index++) {
+      const sub_array = input_array.slice(start_index, start_index + end_index + 1)
+      aggrigation_array.push({
+        "sub_array": sub_array,
+        "sum": sub_array.reduce((a, b) => a + b, 0),
+      })
+    }
+  }
+  aggrigation_array.sort((a, b) => b.sum - a.sum);
+  return aggrigation_array[0]["sum"]
 }
