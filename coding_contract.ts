@@ -42,6 +42,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Algorithmic Stock Trader II":
+            answer = solver_stock_trader_ii(contract_data);
+            solved = true;
+            break;
+
           case "Subarray with Maximum Sum":
             answer = solver_subarray_max_strings(contract_data);
             solved = true;
@@ -152,6 +157,22 @@ function solver_stock_trader_i(trades: number[]) {
     list_of_maxes.push(Math.max(0, (largest_future_number - current_cost)))
   });
   return list_of_maxes.reduce((a, b) => Math.max(a, b))
+}
+
+function solver_stock_trader_ii(trades: number[]) {
+  let min_value = trades[0];
+  let max_value = trades[0];
+  let accumulator = 0;
+  trades.forEach(current_element => {
+    if (max_value >= current_element) {
+      accumulator += max_value - min_value
+      min_value = current_element
+      max_value = current_element
+    }
+    max_value = Math.max(max_value, current_element)
+  })
+  accumulator += max_value - min_value
+  return accumulator
 }
 
 function solver_subarray_max_strings(input_array: number[]) {
