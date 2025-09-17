@@ -26,6 +26,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Encryption I: Caesar Cipher":
+            answer = solver_encryption_i(contract_data[0], contract_data[1]);
+            solved = true;
+            break;
+
           case "Encryption II: Vigenère Cipher":
             answer = solver_encryption_ii(contract_data[0], contract_data[1]);
             solved = true;
@@ -109,6 +114,21 @@ function solver_largest_prime_factor(number: number) {
     }
   }
   return factors.reduce((a, b) => Math.max(a, b))
+}
+
+function solver_encryption_i(plaintext: string, keyword: number): string {
+  const plaintext_array = plaintext.split("");
+  let encrypted_string = "";
+  for (const character_index in plaintext_array) {
+    const plaintext_character = plaintext_array[character_index]
+    if (plaintext_character == " ") {
+      encrypted_string = encrypted_string.concat(" ")
+      continue
+    }
+    const plaintext_index = alphabet_upper.indexOf(plaintext_character);
+    encrypted_string = encrypted_string.concat(String(alphabet_upper.at((plaintext_index - keyword) % alphabet_upper.length)))
+  }
+  return encrypted_string;
 }
 
 function solver_encryption_ii(plaintext: string, keyword: string): string {
