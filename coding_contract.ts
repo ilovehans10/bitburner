@@ -53,7 +53,11 @@ export async function main(ns: NS) {
         }
         if (solved) {
           const contract_message = ns.codingcontract.attempt(answer, contract_filename, server)
-          ns.tprintf("Success for %s on %s: %s", contract_type, server, contract_message)
+          if (contract_message) {
+            ns.tprintf("Success for %s on %s: %s", contract_type, server, contract_message)
+          } else {
+            ns.tprintf("Failed to solve contract %s on %s with answer: %j", contract_type, server, answer);
+          }
         }
       }
     }
