@@ -58,7 +58,7 @@ export async function main(ns: NS) {
 }
 
 /** @param {NS} ns */
-function get_servers(ns, server, current_server_list) {
+function get_servers(ns: NS, server, current_server_list) {
   current_server_list.push(server);
   const adjacent_servers = ns.scan(server);
   for (const server_to_check of adjacent_servers) {
