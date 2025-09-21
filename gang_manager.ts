@@ -17,7 +17,7 @@ export async function main(ns: NS) {
   const hacking_training_threshold = 1500;
   const charisma_training_threshold = 50;
   const combat_training_threshold = 1500;
-  const respect_threshold = 125000000;
+  const reputation_threshold = 2500000;
   const action_loop_count = 60;
   const warfare_loop_count = 60;
   const warefare_power_threshold = 70;
@@ -39,6 +39,7 @@ export async function main(ns: NS) {
   }
 
   const gang_type = JSON.parse(ns.read("json/gang_type.json"));
+  const gang_faction = gang_type == "Combat" ? "Slum Snakes" : "NiteSec"
 
   ns.gang.setTerritoryWarfare(false);
 
@@ -69,7 +70,7 @@ export async function main(ns: NS) {
             const bad_actions = ["Cyberterrorism", "Money Laundering"];
             let bad_action;
 
-            if (respect_threshold > ns.gang.getGangInformation().respect) { // TODO: refactor to use faction rep
+            if (reputation_threshold > ns.singularity.getFactionRep(gang_faction)) {
               bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
             } else {
               bad_action = "Money Laundering"
@@ -100,7 +101,7 @@ export async function main(ns: NS) {
             const bad_actions = ["Terrorism", "Human Trafficking"];
             let bad_action;
 
-            if (respect_threshold > ns.gang.getGangInformation().respect) { // TODO: refactor to use faction rep
+            if (reputation_threshold > ns.singularity.getFactionRep(gang_faction)) {
               bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
             } else {
               bad_action = "Human Trafficking"
