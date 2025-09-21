@@ -31,6 +31,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Total Number of Primes":
+            answer = solver_number_of_primes(contract_data);
+            solved = true;
+            break;
+
           case "Encryption I: Caesar Cipher":
             answer = solver_encryption_i(contract_data[0], contract_data[1]);
             solved = true;
@@ -129,6 +134,24 @@ function solver_largest_prime_factor(number: number) {
     }
   }
   return factors.reduce((a, b) => Math.max(a, b))
+}
+
+function solver_number_of_primes(number_range: number[]) {
+  let primes: number[] = [];
+  for (let number = number_range[0]; number < number_range[1]; number++) {
+    let divisor = 2;
+    while (number > 1) {
+      if (number % divisor == 0) {
+        break
+      }
+      divisor += 1;
+      if (divisor * divisor > number) {
+        if (number > 1) { primes.push(number) }
+        break
+      }
+    }
+  }
+  return primes.length
 }
 
 function solver_encryption_i(plaintext: string, keyword: number): string {
