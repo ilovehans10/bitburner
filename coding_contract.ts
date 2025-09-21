@@ -9,6 +9,11 @@ export async function main(ns: NS) {
     connect_to_server(ns, args[0].toString())
   } else {
     const contract_servers = find_contract_servers(ns)
+    let solvers: { solver_type: string, server_list: string[], have_solver: boolean }[] = []
+    for (let coding_type of Object.values(ns.enums.CodingContractName)) {
+      solvers.push({ solver_type: coding_type, server_list: [], have_solver: false })
+    }
+
     for (const server of contract_servers) {
       for (const contract_filename of ns.ls(server, "cct")) {
         const contract_type = ns.codingcontract.getContractType(contract_filename, server);
@@ -57,9 +62,13 @@ export async function main(ns: NS) {
             break;
 
           default:
-            ns.tprintf("Could not find solver for: %s on %s", contract_type, server)
             break;
         }
+
+        let solver_index = solvers.findIndex(a => a.solver_type === String(contract_type))
+        solvers[solver_index].have_solver = solved
+        solvers[solver_index].server_list.push(server)
+
         if (solved) {
           const contract_message = ns.codingcontract.attempt(answer, contract_filename, server)
           if (contract_message) {
@@ -70,7 +79,13 @@ export async function main(ns: NS) {
         }
       }
     }
-    ns.tprintf("%s", find_contract_servers(ns).join(", "))
+    ns.tprintf("\nCould not find the following solvers:")
+    for (let solver of solvers.sort((a, b) => a.solver_type.localeCompare(b.solver_type))) {
+      if (solver.server_list.length > 0 && !solver.have_solver) {
+        ns.tprintf("%s%s", solver.solver_type.padEnd(40, " "), solver.server_list.join(", "))
+      }
+    }
+    ns.tprintf("\n%s", find_contract_servers(ns).join(", "))
   }
 }
 
