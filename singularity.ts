@@ -21,7 +21,7 @@ export async function main(ns: NS) {
     if (gang_setup_needed && loop_count % gang_timing == 0) {
       if (ns.heart.break() > -54000) {
         const is_focused = ns.singularity.isFocused();
-        if (ns.singularity.getCrimeChance("Homicide") < 1) {
+        if (ns.singularity.getCrimeChance("Homicide") < 0.95) {
           const combat_choice = combat_skills[(loop_count / gang_timing) % 4];
           ns.singularity.gymWorkout("Powerhouse Gym", combat_choice, is_focused);
         } else if (!commiting_crimes) {
