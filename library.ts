@@ -80,7 +80,7 @@ function make_server_file(ns: NS) {
         const scan_result = ns.scan(item_to_scan);
         already_scanned.push(item_to_scan);
         for (const new_item of scan_result) {
-          if (!output_list.includes(new_item)) {
+          if (!output_list.includes(new_item) && !new_item.startsWith("hacknet-server")) {
             output_list.push(new_item);
           }
         }
