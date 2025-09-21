@@ -196,7 +196,7 @@ export async function main(ns: NS) {
       }
       const clash_print_bound = clashing_currently ? clash_lower_bound : clash_upper_bound;
       if (average_clash_chance != 0) {
-        ns.printf("Average clash chance: %s of %s", ns.formatNumber(average_clash_chance, 2), ns.formatNumber(clash_print_bound, 2))
+        ns.printf("Average clash chance: %s of %s", ns.format.number(average_clash_chance, 2), ns.format.number(clash_print_bound, 2))
       }
       if (clashing_currently && average_clash_chance <= clash_lower_bound) {
         ns.tprintf("%b %b %b", clashing_currently, (my_gang_info.power <= warefare_power_threshold), (average_clash_chance <= clash_lower_bound));
