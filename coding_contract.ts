@@ -5,8 +5,24 @@ const alphabet_upper = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "
 
 export async function main(ns: NS) {
   const args = ns.args;
+  let contract_types = ns.codingcontract.getContractTypes().map(value => value.toString());
   if (args.length > 0) {
-    connect_to_server(ns, args[0].toString())
+    if (ns.serverExists(args[0].toString())) {
+      connect_to_server(ns, args[0].toString())
+
+    } else {
+      let output_contract_types = contract_types;
+      for (const arg of args) {
+        output_contract_types = output_contract_types.filter(contract_type => contract_type.includes(arg.toString()))
+      }
+      if (output_contract_types.length > 1) {
+        ns.tprintf("%s", output_contract_types.join(", "))
+      } else {
+        ns.codingcontract.createDummyContract(output_contract_types[0])
+        ns.tprintf("Created contract: %s", output_contract_types[0])
+      }
+
+    }
   } else {
     const contract_servers = find_contract_servers(ns)
     let solvers: { solver_type: string, server_list: string[], have_solver: boolean }[] = []
