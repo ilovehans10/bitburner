@@ -9,6 +9,7 @@ export async function main(ns: NS) {
   const commiting_crimes = [false, false, false, false];
   const sleeve_timing = 30;
   const sleeve_thresholds = { "shock": 85, "combat": 90 }
+
   const combat_skills = [ns.enums.GymType.strength, ns.enums.GymType.dexterity, ns.enums.GymType.defense, ns.enums.GymType.agility];
   do {
     if (ns.sleeve.getNumSleeves() > 0 && loop_count % sleeve_timing == 0) {
