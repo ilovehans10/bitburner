@@ -19,7 +19,7 @@ export async function main(ns: NS) {
         } else if (get_sleeve_combat_average(sleeve.skills) < (sleeve_thresholds.combat * ns.getBitNodeMultipliers().AgilityLevelMultiplier)) {
           const combat_choice = combat_skills[(loop_count / sleeve_timing) % 4];
           ns.sleeve.setToGymWorkout(sleeve_index, "Powerhouse Gym", combat_choice);
-        } else if (!commiting_crimes[sleeve_index]) {
+        } else if (!commiting_crimes[sleeve_index] && ns.heart.break() > -54000) {
           ns.sleeve.setToCommitCrime(sleeve_index, "Homicide");
           commiting_crimes[sleeve_index] = true;
         }
