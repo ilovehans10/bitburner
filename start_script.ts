@@ -9,7 +9,7 @@ export async function main(ns: NS) {
   const should_upgrade = ns.args[0];
   if (should_upgrade) {
     while (ns.singularity.upgradeHomeRam()) {
-      ns.tprintf("Upgraded Home RAM: %s", ns.formatRam(ns.getServerMaxRam("home")));
+      ns.tprintf("Upgraded Home RAM: %s", ns.format.ram(ns.getServerMaxRam("home")));
     }
     if (ns.singularity.purchaseTor()) {
       const program_list = ["BruteSSH.exe", "FTPCrack.exe", "relaySMTP.exe", "ServerProfiler.exe", "DeepscanV1.exe", "AutoLink.exe", "HTTPWorm.exe", "DeepscanV2.exe", "SQLInject.exe"];
@@ -65,7 +65,7 @@ export async function main(ns: NS) {
       ns.tprintf("Starting gang_manager.js");
       ns.run("gang_manager.js");
     } else {
-      ns.tprintf("Can't form gang, karma is %i of -54000", ns.heart.break());
+      ns.tprintf("Can't form gang, karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
     }
     ns.tprintf("Starting homehack.js, with %d threads", homehack_threads);
     if (spare_ram >= 128) {
