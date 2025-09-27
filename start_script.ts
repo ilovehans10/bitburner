@@ -49,7 +49,7 @@ export async function main(ns: NS) {
   ns.tprintf("Killing all current scripts on home");
   ns.killall("home");
   ns.tprintf("Starting distribute.js");
-  ns.run("distribute.js", 1, false, true);
+  ns.run("distribute.js", { threads: 1 }, false, true);
   if (all_scripts_ram > total_ram) {
     ns.tprintf("Warning: not enough RAM to run all scripts, gang_manager won't be run");
     const needed_ram = spare_ram + distro_script_ram;
