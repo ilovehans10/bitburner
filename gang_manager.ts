@@ -75,7 +75,7 @@ export async function main(ns: NS) {
             } else {
               bad_action = "Money Laundering"
             }
-            if (gang_members.length < 6 && member_information.hack > recruit_skill_threshold) {
+            if (gang_members.length < 7 && member_information.hack > recruit_skill_threshold) {
               selected_task = "Cyberterrorism";
             } else if (member_information.hack < hacking_training_threshold) {
               selected_task = "Train Hacking";
@@ -106,7 +106,7 @@ export async function main(ns: NS) {
             } else {
               bad_action = "Human Trafficking"
             }
-            if (gang_members.length < 6 && member_information.agi > recruit_skill_threshold) {
+            if (gang_members.length < 7 && member_information.agi > recruit_skill_threshold) {
               selected_task = "Terrorism";
             } else if (member_information.agi < hacking_training_threshold) {
               selected_task = "Train Combat";
