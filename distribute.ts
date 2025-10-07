@@ -39,6 +39,7 @@ export async function main(ns: NS) {
       if (ns.ps(current_server).length >= 1 && (ns.ps(current_server)[0].args[0] != target_server || kill_old_scripts)) {
         const script_pid = ns.ps(current_server)[0].pid;
         ns.kill(script_pid);
+        changed_servers.push(current_server)
       }
 
       ns.scp(scripts, current_server);
@@ -46,7 +47,7 @@ export async function main(ns: NS) {
         if (thread_count >= 1) {
           ns.exec(scripts[0], current_server, thread_count, target_server)
           ns.printf("selfhack now running on: %s, with %d, thread(s), pointed at %s.", current_server, thread_count, target_server);
-          new_servers.push(current_server)
+          changed_servers.includes(current_server) ? null : new_servers.push(current_server)
         }
       }
     }
