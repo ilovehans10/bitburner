@@ -5,7 +5,7 @@ import { NS } from "@ns";
  * @param {NS} ns - netscript function object
  */
 export async function main(ns: NS) {
-  ns.tprintf("Library is empty")
+  ns.tprintf("Library is empty");
 }
 
 /**
@@ -25,9 +25,9 @@ export function start_functions(ns: NS) {
  */
 export async function faction_joiner(ns: NS) {
   const server_objects: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
-  const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }]
+  const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }];
   if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
-    faction_requirements.push({ "server": "w0r1d_d43m0n", "faction": "" })
+    faction_requirements.push({ "server": "w0r1d_d43m0n", "faction": "" });
   }
   let faction_joined_count = 0;
   for (const faction of faction_requirements) {
@@ -56,13 +56,13 @@ function make_path_file(ns: NS) {
         already_scanned.push(item_to_scan);
         for (const new_item of scan_result) {
           if (!found_servers.includes(new_item)) {
-            server_objects.push({ "name": new_item, "path_home": item_to_scan })
+            server_objects.push({ "name": new_item, "path_home": item_to_scan });
             found_servers.push(new_item);
           }
         }
       }
     }
-  } while (already_scanned.length < found_servers.length)
+  } while (already_scanned.length < found_servers.length);
   ns.write("json/server_paths.json", JSON.stringify(server_objects), "w");
 }
 
@@ -86,7 +86,7 @@ function make_server_file(ns: NS) {
         }
       }
     }
-  } while (already_scanned.length < output_list.length)
+  } while (already_scanned.length < output_list.length);
   ns.write("json/server_names.json", JSON.stringify(output_list), "w");
 }
 
@@ -102,11 +102,11 @@ function find_path(server_fragments: { "name": string, "path_home": string }[], 
     const next_server = server_fragments[server_fragments.findIndex(p => p.name == path.at(-1))].path_home;
     path.push(next_server);
   }
-  return path
+  return path;
 }
 
 export async function backdoor_server(ns: NS, target: string) {
-  connect_to_server(ns, target)
+  connect_to_server(ns, target);
   await ns.singularity.installBackdoor();
   ns.singularity.connect("home");
 }
@@ -115,7 +115,7 @@ export async function connect_to_server(ns: NS, target: string) {
   const server_fragments: { "name": string, "path_home": string }[] = JSON.parse(ns.read("json/server_paths.json"));
   const path = find_path(server_fragments, target);
   for (const server_hop of path.reverse()) {
-    ns.singularity.connect(server_hop)
+    ns.singularity.connect(server_hop);
   }
 }
 
@@ -124,17 +124,17 @@ export async function connect_to_server(ns: NS, target: string) {
  * @param {NS} ns - netscript function object
  */
 export function make_network_map(ns: NS) {
-  ns.write("network_map.txt", "flowchart TD;", "w")
+  ns.write("network_map.txt", "flowchart TD;", "w");
   const servers = get_servers(ns);
   for (const server in servers) {
-    console.log(server)
+    console.log(server);
     // ns.tprintf("id%s[%s]", server, servers[server])
-    const id_name = "id" + server + "[" + servers[server] + "<br>" + ns.getServerRequiredHackingLevel(servers[server]) + "];"
-    ns.write("network_map.txt", id_name, "a")
+    const id_name = "id" + server + "[" + servers[server] + "<br>" + ns.getServerRequiredHackingLevel(servers[server]) + "];";
+    ns.write("network_map.txt", id_name, "a");
     for (const scanned_server of ns.scan(servers[server])) {
       if (servers.indexOf(scanned_server) > server) {
         const server_name = "id" + server + " --- id" + servers.indexOf(scanned_server) + ";";
-        ns.write("network_map.txt", server_name, "a")
+        ns.write("network_map.txt", server_name, "a");
         //ns.tprintf("id%s --- id%s", server, servers.indexOf(scanned_server));
       }
     }
@@ -153,7 +153,7 @@ export function get_best_target(ns: NS) {
   let best_server = { name: "", score: 0 };
   for (const current_server of get_servers(ns)) {
     if (ns.getServerRequiredHackingLevel(current_server) > level_threshold || !ns.hasRootAccess(current_server)) {
-      continue
+      continue;
     }
     const current_server_money = ns.getServerMaxMoney(current_server);
     const current_server_security = ns.getServerMinSecurityLevel(current_server);
