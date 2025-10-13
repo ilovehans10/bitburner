@@ -16,7 +16,7 @@ export async function main(ns: NS) {
       const purchased_programs = [];
       for (const program_name of program_list) {
         if (ns.singularity.purchaseProgram(program_name)) {
-          purchased_programs.push(program_name)
+          purchased_programs.push(program_name);
         }
       }
       if (purchased_programs.length > 0) {
@@ -79,5 +79,5 @@ export async function main(ns: NS) {
 }
 
 function thread_finder(total_ram: number, threaded_script_ram: number, spare_ram: number) {
-  return Math.floor((total_ram - spare_ram) / threaded_script_ram)
+  return Math.floor((total_ram - spare_ram) / threaded_script_ram);
 }
