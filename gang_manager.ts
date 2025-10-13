@@ -1,16 +1,16 @@
 import { NS } from "@ns";
-import { quiet_methods } from "library.js"
+import { quiet_methods } from "library.js";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
-  quiet_methods(ns, ["disableLog", "asleep", "gang.purchaseEquipment", "gang.setMemberTask"])
+  quiet_methods(ns, ["disableLog", "asleep", "gang.purchaseEquipment", "gang.setMemberTask"]);
 
   //ns.gang.createGang("NiteSec");
   const name_pool = ["greg", "wilson", "kutner", "eugine schwarts", "thriteen", "masters", "cuddy", "foreman", "chase", "taub", "cameron", "sam", "amber", "adams", "bosley", "park"];
   const all_equipment_raw = [["Baseball Bat"], ["Katana"], ["Glock 18C"], ["P90C"], ["Steyr AUG"], ["AK-47"], ["M15A10 Assault Rifle"], ["AWM Sniper Rifle"], ["Bulletproof Vest"], ["Full Body Armor"], ["Liquid Body Armor"], ["Graphene Plating Armor"], ["Ford Flex V20"], ["ATX1070 Superbike"], ["Mercedes-Benz S9001"], ["White Ferrari"], ["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const hack_equipment_raw = [["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const combat_members = ["greg", "kutner", "amber"];
-  const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficing": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 }
+  const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficing": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 };
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
   const recruit_skill_threshold = 500;
@@ -39,7 +39,7 @@ export async function main(ns: NS) {
   }
 
   const gang_type = JSON.parse(ns.read("json/gang_type.json"));
-  const gang_faction = gang_type == "Combat" ? "Slum Snakes" : "NiteSec"
+  const gang_faction = gang_type == "Combat" ? "Slum Snakes" : "NiteSec";
 
   ns.gang.setTerritoryWarfare(false);
 
@@ -54,7 +54,7 @@ export async function main(ns: NS) {
       }
       all_equipment = equipment_cost_formatter(ns, all_equipment_raw);
       hack_equipment = equipment_cost_formatter(ns, hack_equipment_raw);
-      wanted_gain_rate = 0
+      wanted_gain_rate = 0;
       for (const member of gang_members) {
         const member_information = ns.gang.getMemberInformation(member);
         if (!combat_members.includes(member) || my_gang_info.territory == 1) {
@@ -73,7 +73,7 @@ export async function main(ns: NS) {
             if (reputation_threshold > ns.singularity.getFactionRep(gang_faction)) {
               bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
             } else {
-              bad_action = "Money Laundering"
+              bad_action = "Money Laundering";
             }
             if (gang_members.length < 7 && member_information.hack > recruit_skill_threshold) {
               selected_task = "Cyberterrorism";
@@ -104,7 +104,7 @@ export async function main(ns: NS) {
             if (reputation_threshold > ns.singularity.getFactionRep(gang_faction)) {
               bad_action = bad_actions[Math.floor(Math.random() * bad_actions.length)];
             } else {
-              bad_action = "Human Trafficking"
+              bad_action = "Human Trafficking";
             }
             if (gang_members.length < 7 && member_information.agi > recruit_skill_threshold) {
               selected_task = "Terrorism";
@@ -132,7 +132,7 @@ export async function main(ns: NS) {
             for (const equipment of hack_equipment) {
               if (equipment.cost * equipment_cost_threshold <= ns.getPlayer().money) {
                 if (ns.gang.purchaseEquipment(member, equipment.name)) {
-                  bought_equipment.push(equipment.name)
+                  bought_equipment.push(equipment.name);
                   //ns.tprintf("Bought %s for %s", equipment.name, member);
                 }
               }
@@ -162,7 +162,7 @@ export async function main(ns: NS) {
             for (const equipment of all_equipment) {
               if (equipment.cost * equipment_cost_threshold <= ns.getPlayer().money) {
                 if (ns.gang.purchaseEquipment(member, equipment.name)) {
-                  bought_equipment.push(equipment.name)
+                  bought_equipment.push(equipment.name);
                   //ns.tprintf("Bought %s for %s", equipment[0], member);
                 }
               }
@@ -181,36 +181,36 @@ export async function main(ns: NS) {
     }
 
     if (loop_count % warfare_loop_count == 0) {
-      const gang_names = ["Speakers for the Dead", "The Black Hand", "Slum Snakes", "Tetrads", "The Syndicate", "The Dark Army", "NiteSec"]
+      const gang_names = ["Speakers for the Dead", "The Black Hand", "Slum Snakes", "Tetrads", "The Syndicate", "The Dark Army", "NiteSec"];
       let worst_clash_chance = 1.0;
       let average_clash_chance = 0.0;
       const average_clash_chance_list = [];
       for (const check_gang of gang_names) {
-        if (ns.gang.getOtherGangInformation()[check_gang].territory == 0.0) { continue }
+        if (ns.gang.getOtherGangInformation()[check_gang].territory == 0.0) { continue; }
         const current_chance = ns.gang.getChanceToWinClash(check_gang);
-        if (current_chance == 0.5) { continue }
+        if (current_chance == 0.5) { continue; }
         worst_clash_chance = Math.min(current_chance, worst_clash_chance);
         average_clash_chance_list.push(current_chance);
       }
       if (average_clash_chance_list.length > 0) {
-        average_clash_chance = average_clash_chance_list.reduce((a, b) => a + b) / average_clash_chance_list.length
+        average_clash_chance = average_clash_chance_list.reduce((a, b) => a + b) / average_clash_chance_list.length;
       }
       const clash_print_bound = clashing_currently ? clash_lower_bound : clash_upper_bound;
       if (average_clash_chance != 0) {
-        ns.printf("Average clash chance: %s of %s", ns.format.number(average_clash_chance, 2), ns.format.number(clash_print_bound, 2))
+        ns.printf("Average clash chance: %s of %s", ns.format.number(average_clash_chance, 2), ns.format.number(clash_print_bound, 2));
       }
       if (clashing_currently && average_clash_chance <= clash_lower_bound) {
         ns.tprintf("%b %b %b", clashing_currently, (my_gang_info.power <= warefare_power_threshold), (average_clash_chance <= clash_lower_bound));
-        ns.gang.setTerritoryWarfare(false)
+        ns.gang.setTerritoryWarfare(false);
         clashing_currently = false;
         clashing_cooldown = clashing_cooldown_max;
-        ns.tprintf("Stopping gang warfare")
-        ns.printf("Stopping gang warfare")
+        ns.tprintf("Stopping gang warfare");
+        ns.printf("Stopping gang warfare");
       } else if (clashing_currently == false && average_clash_chance >= clash_upper_bound && clashing_cooldown == 0) {
-        ns.gang.setTerritoryWarfare(true)
+        ns.gang.setTerritoryWarfare(true);
         clashing_currently = true;
-        ns.tprintf("Starting gang warfare")
-        ns.printf("Starting gang warfare")
+        ns.tprintf("Starting gang warfare");
+        ns.printf("Starting gang warfare");
       }
       clashing_cooldown = Math.max(0, clashing_cooldown - 1);
       if (clashing_cooldown % clashing_cooldown_print_incriment) {
@@ -253,7 +253,7 @@ function shuffle(array: string[]) {
 function equipment_cost_formatter(ns: NS, equipment_list: string[][]) {
   const return_list = [];
   for (const equipment of equipment_list) {
-    return_list.push({ name: equipment[0], cost: ns.gang.getEquipmentCost(equipment[0]) })
+    return_list.push({ name: equipment[0], cost: ns.gang.getEquipmentCost(equipment[0]) });
   }
-  return return_list
+  return return_list;
 }
