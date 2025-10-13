@@ -44,21 +44,23 @@ export async function main(ns: NS) {
 
   const home_script_ram = ns.getScriptRam("homehack.js");
   const distro_script_ram = ns.getScriptRam("distribute.js");
-  const all_scripts_ram = gang_script_ram + home_script_ram + distro_script_ram;
+  const singularity_script_ram = ns.getScriptRam("singularity.js");
+  const all_scripts_ram = gang_script_ram + home_script_ram + distro_script_ram + singularity_script_ram;
   ns.tprintf("Killing all current scripts on home");
   ns.killall("home");
   ns.tprintf("Starting distribute.js");
   ns.run("distribute.js", { threads: 1 }, false, true);
+  ns.run("singularity.js", 1);
   if (all_scripts_ram > total_ram) {
     ns.tprintf("Warning: not enough RAM to run all scripts, gang_manager won't be run");
-    const needed_ram = spare_ram + distro_script_ram;
+    const needed_ram = spare_ram + distro_script_ram + singularity_script_ram;
     const homehack_threads = thread_finder(total_ram, home_script_ram, needed_ram);
     if (homehack_threads > 0) {
       ns.tprintf("Starting homehack.js, with %d threads", homehack_threads);
       ns.spawn("homehack.js", homehack_threads);
     }
   } else {
-    const needed_ram = spare_ram + gang_script_ram + distro_script_ram;
+    const needed_ram = spare_ram + gang_script_ram + distro_script_ram + singularity_script_ram;
     const homehack_threads = thread_finder(total_ram, home_script_ram, needed_ram);
     if (can_form_gang) {
       ns.tprintf("Starting gang_manager.js");
