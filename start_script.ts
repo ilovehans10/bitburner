@@ -44,7 +44,6 @@ export async function main(ns: NS) {
 
   const home_script_ram = ns.getScriptRam("homehack.js");
   const distro_script_ram = ns.getScriptRam("distribute.js");
-  //const scripts_to_kill = ["gang_manager.js", "homehack.js", "distribute.js"];
   const all_scripts_ram = gang_script_ram + home_script_ram + distro_script_ram;
   ns.tprintf("Killing all current scripts on home");
   ns.killall("home");
