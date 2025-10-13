@@ -124,7 +124,7 @@ export async function main(ns: NS) {
           }
 
           ns.gang.setMemberTask(member, selected_task);
-          wanted_gain_rate += hack_task_wanted_levels[selected_task];
+          wanted_gain_rate += hack_task_wanted_levels[selected_task as keyof typeof hack_task_wanted_levels];
           action_counts.set(selected_task, action_counts.get(selected_task) + 1);
 
           if (member_information.hack >= hacking_training_threshold * 3 && member_information.cha >= charisma_training_threshold * 1.2) {
