@@ -1,4 +1,4 @@
-import { quiet_methods } from "library.js"
+import { quiet_methods } from "library.js";
 import { NS, Skills } from "@ns";
 
 /** @param {NS} ns */
@@ -8,7 +8,7 @@ export async function main(ns: NS) {
   let loop_count = 0;
   const commiting_crimes = [false, false, false, false];
   const sleeve_timing = 30;
-  const sleeve_thresholds = { "shock": 85, "combat": 90 }
+  const sleeve_thresholds = { "shock": 85, "combat": 90 };
 
   const combat_skills = [ns.enums.GymType.strength, ns.enums.GymType.dexterity, ns.enums.GymType.defense, ns.enums.GymType.agility];
   do {
@@ -27,11 +27,11 @@ export async function main(ns: NS) {
       }
     }
 
-    await ns.sleep(1000)
+    await ns.sleep(1000);
     loop_count += 1;
   } while (true);
 }
 
 function get_sleeve_combat_average(skills: Skills) {
-  return (skills.agility + skills.defense + skills.dexterity + skills.strength) / 4
+  return (skills.agility + skills.defense + skills.dexterity + skills.strength) / 4;
 }
