@@ -246,5 +246,9 @@ export function quiet_methods(ns: NS, methods_to_quiet: string[] = []) {
  * @param {NS} ns - netscript function object
  */
 export function print_gang_status(ns: NS) {
-  ns.tprintf("Can't form gang, karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
+  if (ns.heart.break() > -54_000) {
+    ns.tprintf("Can't form gang; karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
+  } else {
+    ns.tprintf("Gangs can be formed; karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
+  }
 }
