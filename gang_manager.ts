@@ -28,7 +28,7 @@ export async function main(ns: NS) {
   let my_gang_info;
   let gang_members;
   let wanted_gain_rate;
-  let all_equipment, hack_equipment;
+  let warfare_equipment, standard_equipment;
   let clashing_currently = false;
   let clashing_cooldown = 0;
   const actions = ["Cyberterrorism", "Money Laundering", "Ethical Hacking", "Train Hacking", "Train Charisma", "Terrorism",];
@@ -52,8 +52,8 @@ export async function main(ns: NS) {
       for (const action of actions) {
         action_counts.set(action, 0);
       }
-      all_equipment = equipment_cost_formatter(ns, all_equipment_raw);
-      hack_equipment = equipment_cost_formatter(ns, hack_equipment_raw);
+      warfare_equipment = equipment_cost_formatter(ns, all_equipment_raw);
+      standard_equipment = gang_type == "Combat" ? equipment_cost_formatter(ns, all_equipment_raw) : equipment_cost_formatter(ns, hack_equipment_raw);
       wanted_gain_rate = 0;
       for (const member of gang_members) {
         const member_information = ns.gang.getMemberInformation(member);
@@ -129,7 +129,7 @@ export async function main(ns: NS) {
 
           if (member_information.hack >= hacking_training_threshold * 3 && member_information.cha >= charisma_training_threshold * 1.2) {
             const bought_equipment = [];
-            for (const equipment of hack_equipment) {
+            for (const equipment of standard_equipment) {
               if (equipment.cost * equipment_cost_threshold <= ns.getPlayer().money) {
                 if (ns.gang.purchaseEquipment(member, equipment.name)) {
                   bought_equipment.push(equipment.name);
@@ -159,7 +159,7 @@ export async function main(ns: NS) {
 
           if (member_information.str >= combat_training_threshold * 1.2) {
             const bought_equipment = [];
-            for (const equipment of all_equipment) {
+            for (const equipment of warfare_equipment) {
               if (equipment.cost * equipment_cost_threshold <= ns.getPlayer().money) {
                 if (ns.gang.purchaseEquipment(member, equipment.name)) {
                   bought_equipment.push(equipment.name);
