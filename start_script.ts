@@ -34,17 +34,14 @@ export async function main(ns: NS) {
   } else {
     spare_ram = total_ram / 16;
   }
-  let gang_script_ram;
   if (can_form_gang) {
-    gang_script_ram = ns.getScriptRam("gang_manager.js");
     if (ns.getHackingLevel() < 100) { ns.singularity.universityCourse("Rothman University", "Algorithms", false); }
-  } else {
-    gang_script_ram = 0;
   }
 
   const home_script_ram = ns.getScriptRam("homehack.js");
   const distro_script_ram = ns.getScriptRam("distribute.js");
   const singularity_script_ram = ns.getScriptRam("singularity.js");
+  const gang_script_ram = ns.getScriptRam("gang_manager.js");
   const all_scripts_ram = gang_script_ram + home_script_ram + distro_script_ram + singularity_script_ram;
   ns.tprintf("Killing all current scripts on home");
   ns.killall("home");
@@ -62,10 +59,9 @@ export async function main(ns: NS) {
   } else {
     const needed_ram = spare_ram + gang_script_ram + distro_script_ram + singularity_script_ram;
     const homehack_threads = thread_finder(total_ram, home_script_ram, needed_ram);
-    if (can_form_gang) {
-      ns.tprintf("Starting gang_manager.js");
-      ns.run("gang_manager.js");
-    } else {
+    ns.tprintf("Starting gang_manager.js");
+    ns.run("gang_manager.js");
+    if (!can_form_gang) {
       ns.tprintf("Can't form gang, karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
     }
     ns.tprintf("Starting homehack.js, with %d threads", homehack_threads);
