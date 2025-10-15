@@ -14,10 +14,10 @@ export async function main(ns: NS) {
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
   const recruit_skill_threshold = 500;
-  const hacking_training_threshold = 1500;
+  const hacking_training_threshold = 1_500;
   const charisma_training_threshold = 50;
-  const combat_training_threshold = 1500;
-  const reputation_threshold = 2500000;
+  const combat_training_threshold = 1_500;
+  const reputation_threshold = 2_500_000;
   const action_loop_count = 60;
   const warfare_loop_count = 60;
   const warefare_power_threshold = 70;
@@ -35,7 +35,7 @@ export async function main(ns: NS) {
   //let tasks = ["Unassigned", "Ransomware", "Phishing", "Identity Theft", "DDoS Attacks", "Plant Virus", "Fraud & Counterfeiting", "Money Laundering", "Cyberterrorism", "Ethical Hacking", "Vigilante Justice", "Train Combat", "Train Hacking", "Train Charisma", "Territory Warfare"];
   let loop_count = -1;
   while (!ns.gang.inGang()) {
-    await ns.asleep(10000);
+    await ns.asleep(10_000);
   }
 
   const gang_type = JSON.parse(ns.read("json/gang_type.json"));

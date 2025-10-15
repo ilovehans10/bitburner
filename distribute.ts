@@ -58,7 +58,7 @@ export async function main(ns: NS) {
     ns.writePort(1, get_best_target(ns));
     ns.writePort(2, ns.getServerMinSecurityLevel(suggested_target_server));
     ns.writePort(3, ns.getServerMaxMoney(suggested_target_server));
-    if (ns.heart.break() <= -54000) {
+    if (ns.heart.break() <= -54_000) {
       if (ns.peek(4) != "Gangs Ready") {
         ns.tprint("Heart Broken: Gangs are ready");
       }
@@ -87,7 +87,7 @@ export async function main(ns: NS) {
         changed_servers = [];
       }
     }
-    await ns.asleep(30000);
+    await ns.asleep(30_000);
     loop_count++;
   } while (keep_alive);
 }

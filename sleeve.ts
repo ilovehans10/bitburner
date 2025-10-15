@@ -17,7 +17,7 @@ export async function main(ns: NS) {
         const sleeve = ns.sleeve.getSleeve(sleeve_index);
         if (sleeve.shock >= sleeve_thresholds.shock) {
           ns.sleeve.setToShockRecovery(sleeve_index);
-        } else if (ns.heart.break() > -54000) {
+        } else if (ns.heart.break() > -54_000) {
           if (get_sleeve_combat_average(sleeve.skills) < (sleeve_thresholds.combat * ns.getBitNodeMultipliers().AgilityLevelMultiplier)) {
             const combat_choice = combat_skills[(loop_count / sleeve_timing) % 4];
             ns.sleeve.setToGymWorkout(sleeve_index, "Powerhouse Gym", combat_choice);
@@ -29,7 +29,7 @@ export async function main(ns: NS) {
       }
     }
 
-    await ns.sleep(1000);
+    await ns.sleep(1_000);
     loop_count += 1;
   } while (true);
 }

@@ -26,7 +26,7 @@ export async function main(ns: NS) {
   }
 
   const total_ram = ns.getServerMaxRam("home");
-  const can_form_gang = ns.heart.break() <= -54000;
+  const can_form_gang = ns.heart.break() <= -54_000;
   let spare_ram;
 
   if (total_ram <= 128) {

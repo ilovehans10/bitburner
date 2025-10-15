@@ -19,7 +19,7 @@ export async function main(ns: NS) {
       }
     }
     if (gang_setup_needed && loop_count % gang_timing == 0) {
-      if (ns.heart.break() > -54000) {
+      if (ns.heart.break() > -54_000) {
         const is_focused = ns.singularity.isFocused();
         if (ns.singularity.getCrimeChance("Homicide") < 0.95) {
           const combat_choice = combat_skills[(loop_count / gang_timing) % 4];
@@ -39,7 +39,7 @@ export async function main(ns: NS) {
         gang_setup_needed = false;
       }
     }
-    await ns.sleep(1000)
+    await ns.sleep(1_000);
     loop_count += 1;
   } while (true);
 }
