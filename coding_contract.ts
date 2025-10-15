@@ -100,13 +100,15 @@ export async function main(ns: NS) {
         }
       }
     }
-    ns.tprintf("\nCould not find the following solvers:")
-    for (let solver of solvers.sort((a, b) => a.solver_type.localeCompare(b.solver_type))) {
-      if (solver.server_list.length > 0 && !solver.have_solver) {
-        ns.tprintf("%s%s", solver.solver_type.padEnd(40, " "), solver.server_list.join(", "))
+    if (solvers.reduce((a, b) => Math.max(a, (!b.have_solver ? b.server_list.length : 0)), 0) > 0) {
+      ns.tprintf("\nCould not find the following solvers:")
+      for (let solver of solvers.sort((a, b) => a.solver_type.localeCompare(b.solver_type))) {
+        if (solver.server_list.length > 0 && !solver.have_solver) {
+          ns.tprintf("%s%s", solver.solver_type.padEnd(40, " "), solver.server_list.join(", "))
+        }
       }
+      ns.tprintf("\n%s", find_contract_servers(ns).join(", "))
     }
-    ns.tprintf("\n%s", find_contract_servers(ns).join(", "))
   }
 }
 
