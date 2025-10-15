@@ -1,4 +1,4 @@
-import { get_hacked_servers, get_best_target, faction_joiner } from "library.js"
+import { get_hacked_servers, get_best_target, faction_joiner } from "library.js";
 import { NS } from "@ns";
 
 /** @param {NS} ns */
@@ -22,7 +22,7 @@ export async function main(ns: NS) {
     //ns.print(all_target_servers);
     for (const current_server of all_target_servers) {
       if (blacklist.includes(current_server)) {
-        continue
+        continue;
       }
       //ns.print(current_server);
       const ram = ns.getServerMaxRam(current_server);
@@ -39,15 +39,15 @@ export async function main(ns: NS) {
       if (ns.ps(current_server).length >= 1 && (ns.ps(current_server)[0].args[0] != target_server || kill_old_scripts)) {
         const script_pid = ns.ps(current_server)[0].pid;
         ns.kill(script_pid);
-        changed_servers.push(current_server)
+        changed_servers.push(current_server);
       }
 
       ns.scp(scripts, current_server);
       if (ns.getServerUsedRam(current_server) < 1) {
         if (thread_count >= 1) {
-          ns.exec(scripts[0], current_server, thread_count, target_server)
+          ns.exec(scripts[0], current_server, thread_count, target_server);
           ns.printf("selfhack now running on: %s, with %d, thread(s), pointed at %s.", current_server, thread_count, target_server);
-          changed_servers.includes(current_server) ? null : new_servers.push(current_server)
+          changed_servers.includes(current_server) ? null : new_servers.push(current_server);
         }
       }
     }
@@ -60,16 +60,16 @@ export async function main(ns: NS) {
     ns.writePort(3, ns.getServerMaxMoney(suggested_target_server));
     if (ns.heart.break() <= -54000) {
       if (ns.peek(4) != "Gangs Ready") {
-        ns.tprint("Heart Broken: Gangs are ready")
+        ns.tprint("Heart Broken: Gangs are ready");
       }
-      ns.writePort(4, "Gangs Ready")
+      ns.writePort(4, "Gangs Ready");
     }
 
     if (new_servers.length >= 1) {
       const new_faction_joined_count = await faction_joiner(ns);
       if (new_faction_joined_count > faction_joined_count) {
         ns.tprintf("Joined new faction");
-        faction_joined_count = new_faction_joined_count
+        faction_joined_count = new_faction_joined_count;
       }
     }
 
@@ -87,7 +87,7 @@ export async function main(ns: NS) {
         changed_servers = [];
       }
     }
-    await ns.asleep(30000)
+    await ns.asleep(30000);
     loop_count++;
   } while (keep_alive);
 }
