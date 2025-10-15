@@ -127,7 +127,7 @@ export async function main(ns: NS) {
           wanted_gain_rate += hack_task_wanted_levels[selected_task as keyof typeof hack_task_wanted_levels];
           action_counts.set(selected_task, action_counts.get(selected_task) + 1);
 
-          if (member_information.hack >= hacking_training_threshold * 3 && member_information.cha >= charisma_training_threshold * 1.2) {
+          if ((member_information.hack >= hacking_training_threshold * 3 || member_information.def >= combat_training_threshold * 1.2) && member_information.cha >= charisma_training_threshold * 1.2) {
             const bought_equipment = [];
             for (const equipment of standard_equipment) {
               if (equipment.cost * equipment_cost_threshold <= ns.getPlayer().money) {
