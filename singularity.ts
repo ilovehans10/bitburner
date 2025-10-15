@@ -1,4 +1,4 @@
-import { quiet_methods } from "library.js"
+import { quiet_methods } from "library.js";
 import { NS } from "@ns";
 
 /** @param {NS} ns */
