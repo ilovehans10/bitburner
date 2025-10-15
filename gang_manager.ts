@@ -225,9 +225,9 @@ export async function main(ns: NS) {
       ns.gang.setMemberTask(new_name, "Train Hacking");
     }
     if (ns.gang.getBonusTime() > 0) {
-      await ns.asleep(20);
+      await ns.asleep(200);
     } else {
-      await ns.asleep(500);
+      await ns.asleep(5_000);
     }
   }
 }
