@@ -1,4 +1,4 @@
-import { NS } from "@ns";
+import { NS, FactionName } from "@ns";
 import { quiet_methods } from "library.js";
 
 /** @param {NS} ns */
@@ -38,14 +38,14 @@ export async function main(ns: NS) {
   for (const faction of all_factions) {
     for (let i = 0; i < 4; i++) {
       for (const augment of augments) {
-        if (ns.singularity.purchaseAugmentation(faction, augment)) {
+        if (ns.singularity.purchaseAugmentation(faction as FactionName, augment)) {
           ns.tprintf("%s: %s,", ns.singularity.getAugmentationBasePrice(augment), augment);
         }
       }
       let governor_bought;
       do {
         const governor_name = "NeuroFlux Governor";
-        governor_bought = ns.singularity.purchaseAugmentation(faction, governor_name);
+        governor_bought = ns.singularity.purchaseAugmentation(faction as FactionName, governor_name);
       } while (governor_bought);
     }
   }
