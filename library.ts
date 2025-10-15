@@ -240,3 +240,11 @@ export function quiet_methods(ns: NS, methods_to_quiet: string[] = []) {
     ns.disableLog(method_to_quiet);
   }
 }
+
+/**
+ * prints the current level of karma relative to needed for gangs
+ * @param {NS} ns - netscript function object
+ */
+export function print_gang_status(ns: NS) {
+  ns.tprintf("Can't form gang, karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
+}

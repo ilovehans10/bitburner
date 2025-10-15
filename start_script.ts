@@ -1,5 +1,5 @@
 import { NS } from "@ns";
-import { start_functions } from "library";
+import { print_gang_status, start_functions } from "library";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
@@ -62,7 +62,7 @@ export async function main(ns: NS) {
     ns.tprintf("Starting gang_manager.js");
     ns.run("gang_manager.js");
     if (!can_form_gang) {
-      ns.tprintf("Can't form gang, karma is %i of -54000 or %s", ns.heart.break(), ns.format.percent(ns.heart.break() / -54000));
+      print_gang_status(ns);
     }
     ns.tprintf("Starting homehack.js, with %d threads", homehack_threads);
     if (spare_ram >= 128) {
