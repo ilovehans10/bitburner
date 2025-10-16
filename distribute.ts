@@ -1,5 +1,5 @@
-import { get_hacked_servers, get_best_target, faction_joiner } from "library.js";
-import { NS } from "@ns";
+import { get_hacked_servers, get_best_target, backdoor_server } from "library.js";
+import { NS, FactionName } from "@ns";
 
 /** @param {NS} ns */
 export async function main(ns: NS) {
@@ -11,10 +11,14 @@ export async function main(ns: NS) {
   const kill_old_scripts = ns.args[0];
   const keep_alive = ns.args[1];
   const blacklist = ["home"];
-  let faction_joined_count = 0;
   let loop_count = 0;
   let new_servers = [];
   let changed_servers = [];
+  const server_objects: { name: string, path_home: string }[] = JSON.parse(ns.read("json/server_paths.json"));
+  const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }];
+  if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
+    faction_requirements.push({ "server": "w0r1d_d43m0n", "faction": "" });
+  }
   do {
     const suggested_target_server = get_best_target(ns) || "n00dles";
     const all_target_servers = get_hacked_servers(ns);
@@ -65,11 +69,18 @@ export async function main(ns: NS) {
       ns.writePort(4, "Gangs Ready");
     }
 
-    if (new_servers.length >= 1) {
-      const new_faction_joined_count = await faction_joiner(ns);
-      if (new_faction_joined_count > faction_joined_count) {
-        ns.tprintf("Joined new faction");
-        faction_joined_count = new_faction_joined_count;
+    if (new_servers.some(a => faction_requirements.some(b => b.server == a))) {
+      for (const server of new_servers.filter(a => faction_requirements.some(b => b.server == a))) {
+        const server_requirements = faction_requirements.find(a => a.server == server);
+        if (server_requirements == undefined) {
+          ns.tprintf("Couldn't find server requirements for %j", server); return;
+        }
+        if (ns.hasRootAccess(server_requirements.server)) {
+          await backdoor_server(ns, server_requirements.server);
+          if (ns.singularity.joinFaction(server_requirements.faction as FactionName)) {
+            ns.tprintf("Joined faction: %s", server_requirements.faction);
+          }
+        }
       }
     }
 
