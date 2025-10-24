@@ -15,26 +15,26 @@ export async function main(ns: NS) {
     const current_money = ns.getServerMoneyAvailable(target);
     let total_action_count = (weaken_count + grow_count + hack_count);
     const seperator = total_action_count.toString().padStart(5, "0") + "-".repeat(25);
-    ns.printf("%s\nSecurity is %s of %s\nMoney is $%s of $%s\n", seperator, ns.formatNumber(current_security), ns.formatNumber(security_threshold), ns.formatNumber(current_money), ns.formatNumber(money_threshold));
+    ns.printf("%s\nSecurity is %s of %s\nMoney is $%s of $%s\n", seperator, ns.format.number(current_security), ns.format.number(security_threshold), ns.format.number(current_money), ns.format.number(money_threshold));
     if (current_security > security_threshold) {
       ns.printf("Decided to weaken");
       const weaken_ammount = await ns.weaken(target);
-      ns.printf("Weakened by: %s", ns.formatNumber(weaken_ammount));
+      ns.printf("Weakened by: %s", ns.format.number(weaken_ammount));
       weaken_count++;
     } else if (current_money < money_threshold) {
       ns.printf("Decided to grow");
       const grow_ammount = await ns.grow(target);
-      ns.printf("Grew by: %s", ns.formatNumber(grow_ammount));
+      ns.printf("Grew by: %s", ns.format.number(grow_ammount));
       grow_count++;
     } else {
       ns.printf("Decided to hack");
       const hack_ammount = await ns.hack(target);
-      ns.printf("Hacked for: $%s", ns.formatNumber(hack_ammount));
+      ns.printf("Hacked for: $%s", ns.format.number(hack_ammount));
       hack_count++;
     }
     total_action_count += 1;
     if (total_action_count % 10 == 0) {
-      ns.printf("%s\nWeaken: %i (%s)\nGrow: %i (%s)\nHack: %i (%s)", "-".repeat(30), weaken_count, ns.formatPercent(weaken_count / total_action_count), grow_count, ns.formatPercent(grow_count / total_action_count), hack_count, ns.formatPercent(hack_count / total_action_count));
+      ns.printf("%s\nWeaken: %i (%s)\nGrow: %i (%s)\nHack: %i (%s)", "-".repeat(30), weaken_count, ns.format.percent(weaken_count / total_action_count), grow_count, ns.format.percent(grow_count / total_action_count), hack_count, ns.format.percent(hack_count / total_action_count));
     }
   }
 }
