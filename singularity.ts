@@ -30,13 +30,12 @@ export async function main(ns: NS) {
         }
       } else {
         if (ns.getPlayer().factions.includes("Slum Snakes")) {
-          ns.gang.createGang("Slum Snakes");
-          ns.write("json/gang_type.json", JSON.stringify("Combat"), "w");
+          gang_setup_needed = ns.gang.createGang("Slum Snakes");
+          if (gang_setup_needed) ns.write("json/gang_type.json", JSON.stringify("Combat"), "w");
         } else {
-          ns.gang.createGang("NiteSec");
-          ns.write("json/gang_type.json", JSON.stringify("Hack"), "w");
+          gang_setup_needed = ns.gang.createGang("NiteSec");
+          if (gang_setup_needed) ns.write("json/gang_type.json", JSON.stringify("Hack"), "w");
         }
-        gang_setup_needed = false;
       }
     }
     await ns.sleep(1_000);
