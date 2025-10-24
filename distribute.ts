@@ -22,8 +22,8 @@ export async function main(ns: NS) {
   do {
     const suggested_target_server = get_best_target(ns) || "n00dles";
     const all_target_servers = get_hacked_servers(ns);
-    const scripts = ["selfhackv2.js"];
     //ns.print(all_target_servers);
+    const scripts = ["self_hack.js"];
     for (const current_server of all_target_servers) {
       if (blacklist.includes(current_server)) {
         continue;
