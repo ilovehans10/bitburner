@@ -77,6 +77,7 @@ export async function main(ns: NS) {
           ns.tprintf("Couldn't find server requirements for %j", server); return;
         }
         if (ns.hasRootAccess(server_requirements.server)) {
+          ns.tprintf("backdoored: %s", server_requirements.server);
           await backdoor_server(ns, server_requirements.server);
           if (ns.singularity.joinFaction(server_requirements.faction as FactionName)) {
             ns.tprintf("Joined faction: %s", server_requirements.faction);
