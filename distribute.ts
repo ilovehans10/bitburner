@@ -65,6 +65,7 @@ export async function main(ns: NS) {
     if (ns.heart.break() <= -54_000) {
       if (ns.peek(4) != "Gangs Ready") {
         ns.tprint("Heart Broken: Gangs are ready");
+        ns.singularity.joinFaction("Slum Snakes");
       }
       ns.writePort(4, "Gangs Ready");
     }
