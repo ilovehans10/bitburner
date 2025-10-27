@@ -5,9 +5,10 @@ const price_multiplier_threshold = 2;
 /** @param {NS} ns */
 export async function main(ns: NS) {
   const all_augments: { name: string, price: number, factions: string[] }[] = [];
-  for (const faction in ns.enums.FactionName) {
+  for (const faction_key in ns.enums.FactionName) {
+    const faction = ns.enums.FactionName[faction_key as keyof typeof ns.enums.FactionName];
     if (!ns.getPlayer().factions.includes(faction)) continue;
-    const faction_augments = ns.singularity.getAugmentationsFromFaction(ns.enums.FactionName[faction as keyof typeof ns.enums.FactionName]);
+    const faction_augments = ns.singularity.getAugmentationsFromFaction(faction);
     for (let index = 0; index < faction_augments.length; index++) {
       const augment = faction_augments[index];
       const augment_index = all_augments.findIndex(a => a.name == augment);
