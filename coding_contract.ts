@@ -5,7 +5,7 @@ const alphabet_upper = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "
 
 export async function main(ns: NS) {
   const args = ns.args;
-  const contract_types = ns.codingcontract.getContractTypes().map(value => value.toString());
+  const contract_types = ns.codingcontract.getContractTypes();
   if (args.length > 0) {
     if (ns.serverExists(args[0].toString())) {
       connect_to_server(ns, args[0].toString());
