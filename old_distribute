@@ -1,0 +1,17 @@
+server_target = args[0];
+if (args.length > 1) {
+  self_hack_target = args[1];
+} else {
+  self_hack_target = server_target;
+}
+script = "self_hack.script";
+scp(script, server_target);
+
+brutessh(server_target);
+ftpcrack(server_target);
+relaysmtp(server_target);
+httpworm(server_target);
+sqlinject(server_target);
+nuke(server_target);
+threads = Math.floor(getServerRam(server_target)[0] / getScriptRam(script, server_target));
+exec(script, server_target , threads, self_hack_target);

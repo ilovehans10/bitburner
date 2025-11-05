@@ -1,0 +1,18 @@
+already_scanned = [];
+output_list = ["home"];
+while (already_scanned.length < output_list.length); {
+  print(already_scanned);
+  print(output_list);
+  for (var item_to_scan of output_list) {
+    if (!already_scanned.includes(item_to_scan)) {
+      scan_result = scan(item_to_scan);
+      already_scanned.push(item_to_scan);
+      for (var new_item of scan_result) {
+        if (!output_list.includes(new_item) && !new_item.startsWith("hacknet-server")) {
+          output_list.push(new_item);
+        }
+      }
+    }
+  }
+}
+tprint(output_list);

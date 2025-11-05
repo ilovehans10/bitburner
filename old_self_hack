@@ -1,0 +1,10 @@
+target = args[0].toString()
+while (true) {
+  if (getServerSecurityLevel(target) > (getServerMinSecurityLevel(target) * 2)) {
+    weaken(target);
+  } else if (getServerMoneyAvailable(target) < (getServerMaxMoney(target) * 0.95)) {
+    grow(target);
+  } else {
+    hack(target);
+  }
+}
