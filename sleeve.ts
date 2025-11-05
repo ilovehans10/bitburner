@@ -6,7 +6,7 @@ export async function main(ns: NS) {
   quiet_methods(ns, ["disableLog", "sleep", "singularity.upgradeHomeRam"]);
 
   let loop_count = 0;
-  const commiting_crimes = [false, false, false, false];
+  const committing_crimes = [false, false, false, false];
   const sleeve_timing = 30;
   const sleeve_thresholds = { "shock": 85, "combat": 80 };
 
@@ -21,9 +21,9 @@ export async function main(ns: NS) {
           if (get_sleeve_combat_average(sleeve.skills) < (sleeve_thresholds.combat * ns.getBitNodeMultipliers().AgilityLevelMultiplier)) {
             const combat_choice = combat_skills[(loop_count / sleeve_timing) % 4];
             ns.sleeve.setToGymWorkout(sleeve_index, "Powerhouse Gym", combat_choice);
-          } else if (!commiting_crimes[sleeve_index]) {
+          } else if (!committing_crimes[sleeve_index]) {
             ns.sleeve.setToCommitCrime(sleeve_index, "Homicide");
-            commiting_crimes[sleeve_index] = true;
+            committing_crimes[sleeve_index] = true;
           }
         }
       }
