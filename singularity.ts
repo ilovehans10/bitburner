@@ -6,7 +6,7 @@ export async function main(ns: NS) {
 
   quiet_methods(ns, ["disableLog", "sleep", "singularity.upgradeHomeRam"]);
   let loop_count = 0;
-  let commiting_crimes = false;
+  let committing_crimes = false;
   let gang_setup_needed = true;
   const upgrade_timing = 60;
   const gang_timing = 30;
@@ -24,9 +24,9 @@ export async function main(ns: NS) {
         if (ns.singularity.getCrimeChance("Homicide") < 0.95) {
           const combat_choice = combat_skills[(loop_count / gang_timing) % 4];
           ns.singularity.gymWorkout("Powerhouse Gym", combat_choice, is_focused);
-        } else if (!commiting_crimes) {
+        } else if (!committing_crimes) {
           ns.singularity.commitCrime("Homicide", is_focused);
-          commiting_crimes = true;
+          committing_crimes = true;
         }
       } else {
         if (ns.getPlayer().factions.includes("Slum Snakes")) {
