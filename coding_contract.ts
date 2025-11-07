@@ -77,6 +77,11 @@ export async function main(ns: NS) {
             solved = true;
             break;
 
+          case "Array Jumping Game":
+            answer = solver_array_jumping_game(contract_data);
+            solved = true;
+            break;
+
           case "Subarray with Maximum Sum":
             answer = solver_subarray_max_strings(contract_data);
             solved = true;
@@ -249,6 +254,16 @@ function solver_stock_trader_ii(trades: number[]) {
   accumulator += max_value - min_value;
   return accumulator;
 }
+
+function solver_array_jumping_game(input_array: number[]) {
+  if (input_array[0] >= input_array.length) return 1;
+  for (let index = 1; index <= input_array[0]; index++) {
+    const item = input_array[index];
+    if (item >= input_array[0] - index) return solver_array_jumping_game(input_array.slice(index));
+  }
+  return 0;
+}
+
 
 function solver_subarray_max_strings(input_array: number[]) {
   const aggrigation_array: { "sum": number, "sub_array": number[] }[] = [];
