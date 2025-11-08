@@ -12,6 +12,6 @@ export async function main(ns: NS) {
         augments_purchased += 1;
       }
     }
-    ns.tprintf("There were %s augments purchased for sleeve %s costing $%s", augments_purchased.toString().padStart(3, "0"), index, money_spent);
+    ns.tprintf("There were %s augments purchased for sleeve %s costing $%s", augments_purchased.toString().padStart(3, "0"), index, ns.format.number(money_spent));
   }
 }
