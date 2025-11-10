@@ -1,4 +1,4 @@
-import { NS, FactionName } from "@ns";
+import { NS, FactionName, Multipliers } from "@ns";
 import { quiet_methods } from "library.js";
 
 /** @param {NS} ns */
@@ -17,7 +17,38 @@ export async function main(ns: NS) {
     ns.printf("\"%s\": %s", augment.name, augment.price);
   }
 
-  const augments = ["Embedded Netburner Module Core V3 Upgrade", "PC Direct-Neural Interface NeuroNet Injector", "Embedded Netburner Module Direct Memory Access Upgrade", "Embedded Netburner Module Analyze Engine", "Unstable Circadian Modulator", "SPTN-97 Gene Modification", "PC Direct-Neural Interface Optimization Submodule", "Embedded Netburner Module Core V2 Upgrade", "BitRunners Neurolink", "Xanipher", "PC Direct-Neural Interface", "Neuralstimulator", "Artificial Bio-neural Network Implant", "HyperSight Corneal Implant", "SmartJaw", "Embedded Netburner Module Core Implant", "Cranial Signal Processors - Gen V", "PCMatrix", "Neural Accelerator", "Enhanced Myelin Sheathing", "Enhanced Social Interaction Implant", "Cranial Signal Processors - Gen IV", "FocusWire", "Cranial Signal Processors - Gen III", "The Black Hand", "Neuroreceptor Management Implant", "ADR-V2 Pheromone Gene", "DataJack", "The Shadow's Simulacrum", "Neuregen Gene Modification", "Neural-Retention Enhancement", "Embedded Netburner Module", "CRTX42-AA Gene Modification", "TITN-41 Gene-Modification Injection", "Power Recirculation Core", "Neurotrainer III", "Cranial Signal Processors - Gen II", "CashRoot Starter Kit", "Artificial Synaptic Potentiation", "Cranial Signal Processors - Gen I", "Speech Processor Implant", "Neurotrainer II", "Nuoptimal Nootropic Injector Implant", "ADR-V1 Pheromone Gene", "Speech Enhancement", "BitWire", "Synaptic Enhancement Implant", "Neurotrainer I", "The Red Pill"];
+  const all_augments: { name: string, price: number, stats: Multipliers, factions: string[] }[] = [];
+  const augment_stat_multipliers: { stat: keyof Multipliers, multiplier: number }[] = [];
+  const good_augments: string[] = [];
+  for (const faction_key in ns.enums.FactionName) {
+    const faction = ns.enums.FactionName[faction_key as keyof typeof ns.enums.FactionName];
+    if (!ns.getPlayer().factions.includes(faction)) continue;
+    const faction_augments = ns.singularity.getAugmentationsFromFaction(faction);
+    for (let index = 0; index < faction_augments.length; index++) {
+      const augment = faction_augments[index];
+      const augment_index = all_augments.findIndex(a => a.name == augment);
+      if (augment_index < 0) {
+        all_augments.push({ name: augment, price: ns.singularity.getAugmentationBasePrice(augment), stats: ns.singularity.getAugmentationStats(augment), factions: [faction] });
+      } else {
+        all_augments[augment_index].factions.push(faction);
+      }
+    }
+  }
+  all_augments.sort((a, b) => { return b.price - a.price; });
+  for (const augment of all_augments) {
+    const augment_prerequisites = ns.singularity.getAugmentationPrereq(augment.name).sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) - ns.singularity.getAugmentationBasePrice(b); });
+    if (augment_prerequisites.length > 0) ns.tprintf("%s", augment_prerequisites.join(", "));
+    const combat_bonus = augment.stats.strength + augment.stats.defense + augment.stats.dexterity + augment.stats.agility;
+    if (combat_bonus > 4) {
+      for (const prerequisite_augment of augment_prerequisites) {
+        if (!good_augments.includes(prerequisite_augment)) good_augments.push(prerequisite_augment);
+      }
+      if (!good_augments.includes(augment.name)) good_augments.push(augment.name);
+    }
+  }
+  ns.tprintf("%s", good_augments.join(", "));
+
+  const augments = good_augments.concat(["Embedded Netburner Module Core V3 Upgrade", "PC Direct-Neural Interface NeuroNet Injector", "Embedded Netburner Module Direct Memory Access Upgrade", "Embedded Netburner Module Analyze Engine", "Unstable Circadian Modulator", "SPTN-97 Gene Modification", "PC Direct-Neural Interface Optimization Submodule", "Embedded Netburner Module Core V2 Upgrade", "BitRunners Neurolink", "Xanipher", "PC Direct-Neural Interface", "Neuralstimulator", "Artificial Bio-neural Network Implant", "HyperSight Corneal Implant", "SmartJaw", "Embedded Netburner Module Core Implant", "Cranial Signal Processors - Gen V", "PCMatrix", "Neural Accelerator", "Enhanced Myelin Sheathing", "Enhanced Social Interaction Implant", "Cranial Signal Processors - Gen IV", "FocusWire", "Cranial Signal Processors - Gen III", "The Black Hand", "Neuroreceptor Management Implant", "ADR-V2 Pheromone Gene", "DataJack", "The Shadow's Simulacrum", "Neuregen Gene Modification", "Neural-Retention Enhancement", "Embedded Netburner Module", "CRTX42-AA Gene Modification", "TITN-41 Gene-Modification Injection", "Power Recirculation Core", "Neurotrainer III", "Cranial Signal Processors - Gen II", "CashRoot Starter Kit", "Artificial Synaptic Potentiation", "Cranial Signal Processors - Gen I", "Speech Processor Implant", "Neurotrainer II", "Nuoptimal Nootropic Injector Implant", "ADR-V1 Pheromone Gene", "Speech Enhancement", "BitWire", "Synaptic Enhancement Implant", "Neurotrainer I", "The Red Pill"]);
   const factions = ns.getPlayer().factions;
 
   const extra_augments = [];
