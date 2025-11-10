@@ -49,7 +49,7 @@ export async function main(ns: NS) {
         if (thread_count >= 1) {
           ns.exec(scripts[0], current_server, thread_count, target_server);
           ns.printf("selfhack now running on: %s, with %d, thread(s), pointed at %s.", current_server, thread_count, target_server);
-          changed_servers.includes(current_server) ? null : new_servers.push(current_server);
+          if (!changed_servers.includes(current_server)) new_servers.push(current_server);
         }
       }
     }
