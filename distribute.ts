@@ -22,13 +22,11 @@ export async function main(ns: NS) {
   do {
     const suggested_target_server = get_best_target(ns) || "n00dles";
     const all_target_servers = get_hacked_servers(ns);
-    //ns.print(all_target_servers);
     const scripts = ["self_hack.js"];
     for (const current_server of all_target_servers) {
       if (blacklist.includes(current_server)) {
         continue;
       }
-      //ns.print(current_server);
       const ram = ns.getServerMaxRam(current_server);
       const script_ram = ns.getScriptRam(scripts[0]);
       const thread_count = Math.floor(ram / script_ram);
