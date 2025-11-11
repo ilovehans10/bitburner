@@ -39,7 +39,6 @@ export async function main(ns: NS) {
   all_augments.sort((a, b) => { return b.price - a.price; });
   for (const augment of all_augments) {
     const augment_prerequisites = ns.singularity.getAugmentationPrereq(augment.name).sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) - ns.singularity.getAugmentationBasePrice(b); });
-    if (augment_prerequisites.length > 0) ns.tprintf("%s", augment_prerequisites.join(", "));
     const combat_bonus = augment.stats.strength + augment.stats.defense + augment.stats.dexterity + augment.stats.agility;
     if (combat_bonus > 4) {
       for (const prerequisite_augment of augment_prerequisites) {
