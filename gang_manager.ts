@@ -200,7 +200,6 @@ export async function main(ns: NS) {
         ns.printf("Average clash chance: %s of %s", ns.format.number(average_clash_chance, 2), ns.format.number(clash_print_bound, 2));
       }
       if (clashing_currently && average_clash_chance <= clash_lower_bound) {
-        ns.tprintf("%b %b %b", clashing_currently, (my_gang_info.power <= warefare_power_threshold), (average_clash_chance <= clash_lower_bound));
         ns.gang.setTerritoryWarfare(false);
         clashing_currently = false;
         clashing_cooldown = clashing_cooldown_max;
