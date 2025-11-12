@@ -40,20 +40,19 @@ export async function main(ns: NS) {
   for (const augment of all_augments) {
     const augment_prerequisites = ns.singularity.getAugmentationPrereq(augment.name).sort((a, b) => { return ns.singularity.getAugmentationBasePrice(a) - ns.singularity.getAugmentationBasePrice(b); });
     const combat_bonus = augment.stats.strength + augment.stats.defense + augment.stats.dexterity + augment.stats.agility;
+    const other_stats = augment.stats.strength_exp + augment.stats.defense_exp + augment.stats.dexterity_exp + augment.stats.agility_exp + augment.stats.charisma + augment.stats.charisma_exp + augment.stats.hacking_exp + augment.stats.bladeburner_success_chance;
     if (combat_bonus > 4) {
       for (const prerequisite_augment of augment_prerequisites) {
         if (!combat_augments.includes(prerequisite_augment)) combat_augments.push(prerequisite_augment);
       }
       if (!combat_augments.includes(augment.name)) combat_augments.push(augment.name);
-    }
-    if (augment.stats.hacking > 1) {
+    } else if (augment.stats.hacking > 1) {
       for (const prerequisite_augment of augment_prerequisites) {
         if (!hacking_augments.includes(prerequisite_augment)) hacking_augments.push(prerequisite_augment);
       }
       if (!hacking_augments.includes(augment.name)) hacking_augments.push(augment.name);
     }
-    const other_stats = augment.stats.strength_exp + augment.stats.defense_exp + augment.stats.dexterity_exp + augment.stats.agility_exp + augment.stats.charisma + augment.stats.charisma_exp + augment.stats.hacking_exp + augment.stats.bladeburner_success_chance;
-    if (other_stats > 8) {
+    else if (other_stats > 8) {
       for (const prerequisite_augment of augment_prerequisites) {
         if (!other_augments.includes(prerequisite_augment)) other_augments.push(prerequisite_augment);
       }
