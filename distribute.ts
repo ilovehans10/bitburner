@@ -20,6 +20,7 @@ export async function main(ns: NS) {
   if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
     faction_requirements.push({ "server": "w0r1d_d43m0n", "faction": "" });
   }
+  ns.tprintf("%s", faction_requirements.flatMap(a => a.server + ": " + ns.getServerRequiredHackingLevel(a.server)).join(", "));
   do {
     const suggested_target_server = get_best_target(ns) || "n00dles";
     const all_target_servers = get_hacked_servers(ns);
