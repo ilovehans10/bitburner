@@ -19,9 +19,10 @@ export async function main(ns: NS) {
 
   const all_augments: { name: string, price: number, stats: Multipliers, factions: string[] }[] = [];
   const augment_stat_multipliers: { stat: keyof Multipliers, multiplier: number }[] = [];
-  const combat_augments: string[] = [];
-  const hacking_augments: string[] = [];
-  const other_augments: string[] = [];
+  type augment_class = "combat" | "hacking" | "utility" | "other" | "filler";
+  const augment_order: augment_class[] = ["combat", "hacking", "other"];
+  type augment_aggregator_type = { [a in augment_class]: string[]; }
+  const augment_aggregator: augment_aggregator_type = { combat: [], hacking: [], other: [], utility: [], filler: [] };
   for (const faction_key in ns.enums.FactionName) {
     const faction = ns.enums.FactionName[faction_key as keyof typeof ns.enums.FactionName];
     if (!ns.getPlayer().factions.includes(faction)) continue;
@@ -43,25 +44,25 @@ export async function main(ns: NS) {
     const other_stats = augment.stats.strength_exp + augment.stats.defense_exp + augment.stats.dexterity_exp + augment.stats.agility_exp + augment.stats.charisma + augment.stats.charisma_exp + augment.stats.hacking_exp + augment.stats.bladeburner_success_chance;
     if (combat_bonus > 4) {
       for (const prerequisite_augment of augment_prerequisites) {
-        if (!combat_augments.includes(prerequisite_augment)) combat_augments.push(prerequisite_augment);
+        if (!augment_aggregator.combat.includes(prerequisite_augment)) augment_aggregator.combat.push(prerequisite_augment);
       }
-      if (!combat_augments.includes(augment.name)) combat_augments.push(augment.name);
+      if (!augment_aggregator.combat.includes(augment.name)) augment_aggregator.combat.push(augment.name);
     } else if (augment.stats.hacking > 1) {
       for (const prerequisite_augment of augment_prerequisites) {
-        if (!hacking_augments.includes(prerequisite_augment)) hacking_augments.push(prerequisite_augment);
+        if (!augment_aggregator.hacking.includes(prerequisite_augment)) augment_aggregator.hacking.push(prerequisite_augment);
       }
-      if (!hacking_augments.includes(augment.name)) hacking_augments.push(augment.name);
+      if (!augment_aggregator.hacking.includes(augment.name)) augment_aggregator.hacking.push(augment.name);
     }
     else if (other_stats > 8) {
       for (const prerequisite_augment of augment_prerequisites) {
-        if (!other_augments.includes(prerequisite_augment)) other_augments.push(prerequisite_augment);
+        if (!augment_aggregator.other.includes(prerequisite_augment)) augment_aggregator.other.push(prerequisite_augment);
       }
-      if (!other_augments.includes(augment.name)) other_augments.push(augment.name);
+      if (!augment_aggregator.other.includes(augment.name)) augment_aggregator.other.push(augment.name);
     }
   }
-  ns.printf("%s", combat_augments.concat(hacking_augments, other_augments).join(", "));
+  ns.printf("%s", augment_aggregator.combat.concat(augment_aggregator.hacking, augment_aggregator.other).join(", "));
 
-  const augments = combat_augments.concat(hacking_augments, other_augments);
+  const augments = augment_aggregator.combat.concat(augment_aggregator.hacking, augment_aggregator.other);
   const factions = ns.getPlayer().factions;
 
   const extra_augments = [];
