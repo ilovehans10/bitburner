@@ -14,6 +14,7 @@ export async function main(ns: NS) {
   let loop_count = 0;
   let new_servers = [];
   let changed_servers = [];
+  let backdoored_servers: string[] = [];
   const server_objects: { name: string, path_home: string }[] = JSON.parse(ns.read("json/server_paths.json"));
   const faction_requirements = [{ "server": "CSEC", "faction": "CyberSec" }, { "server": "avmnite-02h", "faction": "NiteSec" }, { "server": "I.I.I.I", "faction": "The Black Hand" }, { "server": "run4theh111z", "faction": "BitRunners" }];
   if (server_objects.findIndex(p => p.name == "w0r1d_d43m0n") >= 0) {
@@ -74,11 +75,11 @@ export async function main(ns: NS) {
         if (server_requirements == undefined) {
           ns.tprintf("Couldn't find server requirements for %j", server); return;
         }
-        if (ns.hasRootAccess(server_requirements.server)) {
-          ns.tprintf("backdoored: %s", server_requirements.server);
+        if (ns.hasRootAccess(server_requirements.server) && !backdoored_servers.includes(server)) {
           await backdoor_server(ns, server_requirements.server);
+          backdoored_servers.push(server);
           if (ns.singularity.joinFaction(server_requirements.faction as FactionName)) {
-            ns.tprintf("Joined faction: %s", server_requirements.faction);
+            ns.tprintf("Backdoored: \"%s\" and joined faction: %s", server_requirements.server, server_requirements.faction);
           }
         }
       }
@@ -87,15 +88,17 @@ export async function main(ns: NS) {
     if (loop_count % 10 == 0) {
       ns.printf("%s", (loop_count / 10).toString().padStart(5, "0").padEnd(30, "-"));
       ns.printf("Karma: %i", ns.heart.break());
-      if (new_servers.length + changed_servers.length > 0) {
+      if (new_servers.length + changed_servers.length + backdoored_servers.length > 0) {
         ns.tprintf("%s", (loop_count / 10).toString().padStart(5, "0").padEnd(30, "-"));
         ns.tprintf("%s new servers running selfhack", new_servers.length);
         ns.tprintf("%s servers target changed to %s", changed_servers.length, get_best_target(ns));
+        ns.tprintf("%s factions joined: %s", backdoored_servers.length, backdoored_servers.map(a => faction_requirements.find(b => b.server == a)?.faction).join(", "));
 
         ns.printf("%s new servers running selfhack", new_servers.length);
         ns.printf("%s servers target changed to %s", changed_servers.length, suggested_target_server);
         new_servers = [];
         changed_servers = [];
+        backdoored_servers = [];
       }
     }
     await ns.asleep(30_000);
