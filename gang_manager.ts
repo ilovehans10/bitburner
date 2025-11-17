@@ -13,7 +13,7 @@ export async function main(ns: NS) {
   const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficing": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 };
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
-  const recruit_skill_threshold = 500;
+  const recruit_skill_threshold = 400;
   const hacking_training_threshold = 1_500;
   const charisma_training_threshold = 50;
   const combat_training_threshold = 1_500;
