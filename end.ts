@@ -19,10 +19,22 @@ export async function main(ns: NS) {
 
   const all_augments: { name: string, price: number, stats: Multipliers, factions: string[] }[] = [];
   const augment_stat_multipliers: { stat: keyof Multipliers, multiplier: number }[] = [];
+
   type augment_class = "combat" | "hacking" | "utility" | "other" | "filler";
-  const augment_order: augment_class[] = ["combat", "hacking", "other"];
+  let augment_order: augment_class[];
+  switch (ns.args[0]) {
+    case "hack":
+    case "hacking":
+      augment_order = ["hacking", "combat", "other", "utility"];
+      break;
+
+    default:
+      augment_order = ["combat", "hacking", "other", "utility"];
+      break;
+  }
   type augment_aggregator_type = { [a in augment_class]: string[]; }
   const augment_aggregator: augment_aggregator_type = { combat: [], hacking: [], other: [], utility: [], filler: [] };
+
   for (const faction_key in ns.enums.FactionName) {
     const faction = ns.enums.FactionName[faction_key as keyof typeof ns.enums.FactionName];
     if (!ns.getPlayer().factions.includes(faction)) continue;
@@ -60,9 +72,10 @@ export async function main(ns: NS) {
       if (!augment_aggregator.other.includes(augment.name)) augment_aggregator.other.push(augment.name);
     }
   }
-  ns.printf("%s", augment_aggregator.combat.concat(augment_aggregator.hacking, augment_aggregator.other).join(", "));
 
-  const augments = augment_aggregator.combat.concat(augment_aggregator.hacking, augment_aggregator.other);
+
+  const augments = augment_order.flatMap(a => augment_aggregator[a]);
+
   const factions = ns.getPlayer().factions;
 
   const extra_augments = [];
