@@ -59,7 +59,7 @@ export async function main(ns: NS) {
         if (!augment_aggregator.combat.includes(prerequisite_augment)) augment_aggregator.combat.push(prerequisite_augment);
       }
       if (!augment_aggregator.combat.includes(augment.name)) augment_aggregator.combat.push(augment.name);
-    } else if (augment.stats.hacking > 1) {
+    } else if (Object.entries(augment.stats).some(a => a[0].includes("hack") && a[1] > 1)) {
       for (const prerequisite_augment of augment_prerequisites) {
         if (!augment_aggregator.hacking.includes(prerequisite_augment)) augment_aggregator.hacking.push(prerequisite_augment);
       }
