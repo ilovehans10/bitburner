@@ -47,6 +47,7 @@ export async function main(ns: NS) {
       }
 
       ns.scp(scripts, current_server);
+      if (current_server == "w0r1d_d43m0n") new_servers.push(current_server);
       if (ns.getServerUsedRam(current_server) < 1) {
         if (thread_count >= 1) {
           ns.exec(scripts[0], current_server, thread_count, target_server);
