@@ -117,6 +117,7 @@ export async function main(ns: NS) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function autocomplete(data: AutocompleteData, _args: string[]) {
   return data.servers;
 }
