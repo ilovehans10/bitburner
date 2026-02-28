@@ -20,7 +20,7 @@ const password_solvers = {
 
 export async function main(ns: NS) {
 
-  const debug_printing = true;
+  const debug_printing = false;
   const solver_models = Object.keys(password_solvers);
   const missing_solvers: string[] = [];
   const printed_missing_solvers: string[] = [];
@@ -49,7 +49,7 @@ export async function main(ns: NS) {
         }
       }
 
-      // ns.tprintf("%s: %i", dark_net_server.slice(0, 15).padEnd(15, " "), ns.getServer(dark_net_server).ramUsed);
+      if (debug_printing) ns.tprintf("%s: %i", dark_net_server.slice(0, 15).padEnd(15, " "), ns.getServer(dark_net_server).ramUsed);
 
       if (ns.dnet.isDarknetServer(dark_net_server)) {
         if (ns.getServer(dark_net_server).ramUsed - ns.dnet.getBlockedRam(dark_net_server) > 0) {
