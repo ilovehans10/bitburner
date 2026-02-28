@@ -6,7 +6,7 @@ const password_solvers = {
   //"DeepGreen": null,
   "DeskMemo_3.1": desk_memo,
   //"Factori-Os": null,
-  //"FreshInstall_1.0": null,
+  "FreshInstall_1.0": fresh_install,
   //"KingOfTheHill": null,
   //"NIL": null,
   //"OctantVoxel": null,
@@ -105,4 +105,9 @@ function cloud_blare(auth_details: ServerAuthDetails) {
     return [numbers.join("")];
   }
   throw "missing numbers in data";
+}
+
+function fresh_install(auth_details: ServerAuthDetails) {
+  const possible_passwords = ["default", "admin", "0000", "1234"];
+  return possible_passwords.filter((guess) => { guess.length == auth_details.passwordLength; });
 }
