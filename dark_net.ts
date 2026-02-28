@@ -95,8 +95,8 @@ export async function main(ns: NS) {
 }
 
 function desk_memo(auth_details: ServerAuthDetails) {
-  const re = new RegExp(`\\d${auth_details.passwordLength}`);
-  return [auth_details.passwordHint.match(re)];
+  const re = new RegExp(`\\d{${auth_details.passwordLength}}`);
+  return auth_details.passwordHint.match(re);
 }
 
 function cloud_blare(auth_details: ServerAuthDetails) {
