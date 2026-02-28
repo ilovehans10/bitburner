@@ -108,6 +108,6 @@ function cloud_blare(auth_details: ServerAuthDetails) {
 }
 
 function fresh_install(auth_details: ServerAuthDetails) {
-  const possible_passwords = ["default", "admin", "0000", "1234"];
+  const possible_passwords = ["default", "admin", "0000", "1234", "12345"];
   return possible_passwords.filter((guess) => { guess.length == auth_details.passwordLength; });
 }
