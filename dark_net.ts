@@ -1,8 +1,19 @@
 import { NS, ServerAuthDetails } from "@ns";
 
 const password_solvers = {
-  "DeskMemo_3.1": desk_memo,
+  //"AccountsManager_4.2": null,
   "CloudBlare(tm)": cloud_blare,
+  //"DeepGreen": null,
+  "DeskMemo_3.1": desk_memo,
+  //"Factori-Os": null,
+  //"FreshInstall_1.0": null,
+  //"KingOfTheHill": null,
+  //"NIL": null,
+  //"OctantVoxel": null,
+  //"OpenWebAccessPoint": null,
+  //"Pr0verFl0": null,
+  //"RateMyPix.Auth": null,
+  //"(The Labyrinth)": null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   "ZeroLogon": (_: ServerAuthDetails) => { return [""]; },
 };
