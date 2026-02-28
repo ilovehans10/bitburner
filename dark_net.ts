@@ -15,7 +15,7 @@ const password_solvers = {
   //"RateMyPix.Auth": null,
   //"(The Labyrinth)": null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  "ZeroLogon": (_: ServerAuthDetails) => { return [""]; },
+  "ZeroLogon": () => { return [""]; },
 };
 
 export async function main(ns: NS) {
