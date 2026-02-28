@@ -94,7 +94,7 @@ export async function main(ns: NS) {
   }
 }
 
-function desk_memo(auth_details: ServerAuthDetails) {
+function desk_memo(auth_details: ServerAuthDetails): RegExpMatchArray {
   const re = new RegExp(`\\d{${auth_details.passwordLength}}`);
   const results = auth_details.passwordHint.match(re);
   if (results != null) {
@@ -103,7 +103,7 @@ function desk_memo(auth_details: ServerAuthDetails) {
   throw "could not find string in desk_memo hint";
 }
 
-function cloud_blare(auth_details: ServerAuthDetails) {
+function cloud_blare(auth_details: ServerAuthDetails): string[] {
   const numbers = auth_details.data.match(/\d+/g);
   if (numbers) {
     return [numbers.join("")];
@@ -111,7 +111,7 @@ function cloud_blare(auth_details: ServerAuthDetails) {
   throw "missing numbers in data";
 }
 
-function fresh_install(auth_details: ServerAuthDetails) {
+function fresh_install(auth_details: ServerAuthDetails): string[] {
   const possible_passwords = ["default", "admin", "0000", "1234", "12345"];
   return possible_passwords.filter((guess) => { guess.length == auth_details.passwordLength; });
 }
