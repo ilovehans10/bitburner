@@ -186,7 +186,7 @@ export async function main(ns: NS) {
       let average_clash_chance = 0.0;
       const average_clash_chance_list = [];
       for (const check_gang of gang_names) {
-        if (ns.gang.getOtherGangInformation()[check_gang].territory == 0.0) { continue; }
+        if (ns.gang.getAllGangInformation()[check_gang].territory == 0.0) { continue; }
         const current_chance = ns.gang.getChanceToWinClash(check_gang);
         if (current_chance == 0.5) { continue; }
         worst_clash_chance = Math.min(current_chance, worst_clash_chance);

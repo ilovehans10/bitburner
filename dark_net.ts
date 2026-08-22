@@ -37,7 +37,7 @@ export async function main(ns: NS) {
     const nearby_servers = ns.dnet.probe();
 
     for (const dark_net_server of nearby_servers) {
-      const details = ns.dnet.getServerAuthDetails(dark_net_server);
+      const details = ns.dnet.getServerDetails(dark_net_server);
       if (!details.isConnectedToCurrentServer || !details.isOnline) {
         continue;
       }
