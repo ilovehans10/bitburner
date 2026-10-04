@@ -116,7 +116,7 @@ function cloud_blare(auth_details: DarknetServerDetails): string[] {
 
 function fresh_install(auth_details: DarknetServerDetails): string[] {
   const possible_passwords = ["password", "default", "admin", "0000", "1234", "12345"];
-  const filtered_passwords = possible_passwords.filter(guess => guess.length == auth_details.passwordLength;);
+  const filtered_passwords = possible_passwords.filter(guess => guess.length == auth_details.passwordLength);
   if (!filtered_passwords.length) console.log();
   return filtered_passwords;
 }
