@@ -14,7 +14,7 @@ const password_solvers = {
   "OctantVoxel": null, // the hint is: the password is the base 7 number 1030 in base 10
   "OpenWebAccessPoint": null,
   "PHP 5.4": null, // data is digits that should be used in each permutation
-  "Pr0verFl0": null, // the password buffer is a certain size and you have to overflow it with the same password as you entered
+  "Pr0verFl0": overflow, // the password buffer is a certain size and you have to overflow it with the same password as you entered
   "RateMyPix.Auth": null,
   "(The Labyrinth)": null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -119,4 +119,9 @@ function fresh_install(auth_details: DarknetServerDetails): string[] {
   const filtered_passwords = possible_passwords.filter(guess => guess.length == auth_details.passwordLength);
   if (!filtered_passwords.length) console.log();
   return filtered_passwords;
+}
+
+function overflow(auth_details: DarknetServerDetails): string[] {
+  const overflow_password = ["1".repeat(auth_details.passwordLength)];
+  return overflow_password;
 }
