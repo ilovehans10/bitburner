@@ -1,19 +1,22 @@
-import { NS, ServerAuthDetails } from "@ns";
+import { NS, DarknetServerDetails } from "@ns";
 
 const password_solvers = {
-  //"AccountsManager_4.2": null,
+  "AccountsManager_4.2": null, // given a number range and guess all numbers in that range
+  "BellaCuore": null, // the data is a string represending a number in romal numerials: CDLXXVIII
   "CloudBlare(tm)": cloud_blare,
-  //"DeepGreen": null,
+  "DeepGreen": null,
   "DeskMemo_3.1": desk_memo,
-  //"Factori-Os": null,
+  "Factori-Os": null, // Guess numbers of a certain length
   "FreshInstall_1.0": fresh_install,
-  //"KingOfTheHill": null,
-  //"NIL": null,
-  //"OctantVoxel": null,
-  //"OpenWebAccessPoint": null,
-  //"Pr0verFl0": null,
-  //"RateMyPix.Auth": null,
-  //"(The Labyrinth)": null,
+  "KingOfTheHill": null,
+  "Laika4": null,
+  "NIL": null,
+  "OctantVoxel": null, // the hint is: the password is the base 7 number 1030 in base 10
+  "OpenWebAccessPoint": null,
+  "PHP 5.4": null, // data is digits that should be used in each permutation
+  "Pr0verFl0": null, // the password buffer is a certain size and you have to overflow it with the same password as you entered
+  "RateMyPix.Auth": null,
+  "(The Labyrinth)": null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   "ZeroLogon": () => { return [""]; },
 };
@@ -82,7 +85,7 @@ export async function main(ns: NS) {
           ns.exec("dark_net.js", dark_net_server);
           //ns.tprintf("running on %s now", dark_net_server);
         } else {
-          ns.tprintf("solver for %s was unsuccessful on %s, %s, %s", details.modelId, dark_net_server, details.passwordHint, details.passwordLength);
+          ns.tprintf("solver for %s was unsuccessful on %s: %s", details.modelId, dark_net_server, password_attempts.join(", "));
         }
       }
 
@@ -94,7 +97,7 @@ export async function main(ns: NS) {
   }
 }
 
-function desk_memo(auth_details: ServerAuthDetails): RegExpMatchArray {
+function desk_memo(auth_details: DarknetServerDetails): RegExpMatchArray {
   const re = new RegExp(`\\d{${auth_details.passwordLength}}`);
   const results = auth_details.passwordHint.match(re);
   if (results != null) {
@@ -103,7 +106,7 @@ function desk_memo(auth_details: ServerAuthDetails): RegExpMatchArray {
   throw "could not find string in desk_memo hint";
 }
 
-function cloud_blare(auth_details: ServerAuthDetails): string[] {
+function cloud_blare(auth_details: DarknetServerDetails): string[] {
   const numbers = auth_details.data.match(/\d+/g);
   if (numbers) {
     return [numbers.join("")];
@@ -111,7 +114,9 @@ function cloud_blare(auth_details: ServerAuthDetails): string[] {
   throw "missing numbers in data";
 }
 
-function fresh_install(auth_details: ServerAuthDetails): string[] {
-  const possible_passwords = ["default", "admin", "0000", "1234", "12345"];
-  return possible_passwords.filter((guess) => { guess.length == auth_details.passwordLength; });
+function fresh_install(auth_details: DarknetServerDetails): string[] {
+  const possible_passwords = ["password", "default", "admin", "0000", "1234", "12345"];
+  const filtered_passwords = possible_passwords.filter(guess => guess.length == auth_details.passwordLength;);
+  if (!filtered_passwords.length) console.log();
+  return filtered_passwords;
 }
