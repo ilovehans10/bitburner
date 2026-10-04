@@ -29,8 +29,8 @@ export async function main(ns: NS) {
   const printed_missing_solvers: string[] = [];
 
   const files = ns.ls(ns.getHostname());
-  for (const file in files) {
-    if (/cache/.test(file)) {
+  for (const file of files) {
+    if (/\.cache/.test(file)) {
       ns.tprintf("%s", file);
       ns.dnet.openCache(file);
     }
