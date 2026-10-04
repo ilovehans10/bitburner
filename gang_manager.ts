@@ -10,7 +10,7 @@ export async function main(ns: NS) {
   const all_equipment_raw = [["Baseball Bat"], ["Katana"], ["Malorian-3516"], ["Hansen-HA7"], ["Arasaka-HJSH18"], ["Militech-M251s"], ["Nokota-D5"], ["Techtronika-SPT32"], ["Bulletproof Vest"], ["Full Body Armor"], ["Liquid Body Armor"], ["Graphene Plating Armor"], ["Herrera Outlaw GTS"], ["Yaiba ASM-R250 Muramasa"], ["Rayfield Caliburn"], ["Quadra Sport R-7"], ["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const hack_equipment_raw = [["NUKE Rootkit"], ["Soulstealer Rootkit"], ["Demon Rootkit"], ["Hmap Node"], ["Jack the Ripper"], ["Bionic Arms"], ["Bionic Legs"], ["Bionic Spine"], ["BrachiBlades"], ["Nanofiber Weave"], ["Synthetic Heart"], ["Synfibril Muscle"], ["BitWire"], ["Neuralstimulator"], ["DataJack"], ["Graphene Bone Lacings"]];
   const combat_members = ["greg", "kutner", "amber"];
-  const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficing": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 };
+  const hack_task_wanted_levels = { "Cyberterrorism": 2, "Terrorism": 2, "Money Laundering": 1, "Human Trafficking": 1, "Ethical Hacking": -1, "Vigilante Justice": -1 };
   const ascension_threshold = 1.4;
   const equipment_cost_threshold = 64;
   const recruit_skill_threshold = 400;
@@ -20,11 +20,11 @@ export async function main(ns: NS) {
   const reputation_threshold = 2_500_000;
   const action_loop_count = 60;
   const warfare_loop_count = 60;
-  const warefare_power_threshold = 70;
+  const warfare_power_threshold = 70;
   const clash_upper_bound = 0.65;
   const clash_lower_bound = 0.60;
   const clashing_cooldown_max = 300;
-  const clashing_cooldown_print_incriment = 20;
+  const clashing_cooldown_print_increment = 20;
   let my_gang_info;
   let gang_members;
   let wanted_gain_rate;
@@ -173,8 +173,8 @@ export async function main(ns: NS) {
           }
         }
       }
-      const seperator = (loop_count / action_loop_count).toString().padStart(5, "0") + "-".repeat(25);
-      ns.printf("%s", seperator);
+      const separator = (loop_count / action_loop_count).toString().padStart(5, "0") + "-".repeat(25);
+      ns.printf("%s", separator);
       for (const action of actions) {
         ns.printf("%s: %i", action, action_counts.get(action));
       }
@@ -212,15 +212,15 @@ export async function main(ns: NS) {
         ns.printf("Starting gang warfare");
       }
       clashing_cooldown = Math.max(0, clashing_cooldown - 1);
-      if (clashing_cooldown % clashing_cooldown_print_incriment) {
-        ns.printf("Clash on cooldown: %s/%s", clashing_cooldown % clashing_cooldown_print_incriment, clashing_cooldown_max / clashing_cooldown_print_incriment);
+      if (clashing_cooldown % clashing_cooldown_print_increment) {
+        ns.printf("Clash on cooldown: %s/%s", clashing_cooldown % clashing_cooldown_print_increment, clashing_cooldown_max / clashing_cooldown_print_increment);
       }
     }
 
     if (ns.gang.canRecruitMember()) {
       const new_name = name_pool[gang_members.length];
       ns.gang.recruitMember(new_name);
-      ns.tprintf("Recuited: %s", new_name);
+      ns.tprintf("Recruited: %s", new_name);
       ns.gang.setMemberTask(new_name, "Train Hacking");
     }
     if (ns.gang.getBonusTime() > 0) {
