@@ -1,6 +1,7 @@
 import { NS, DarknetServerDetails } from "@ns";
 
 const password_solvers = {
+  "110100100": null,
   "AccountsManager_4.2": null, // given a number range and guess all numbers in that range
   "BellaCuore": null, // the data is a string represending a number in romal numerials: CDLXXVIII
   "CloudBlare(tm)": cloud_blare,
@@ -15,6 +16,7 @@ const password_solvers = {
   "OpenWebAccessPoint": null,
   "PHP 5.4": null, // data is digits that should be used in each permutation
   "Pr0verFl0": overflow, // the password buffer is a certain size and you have to overflow it with the same password as you entered
+  "PrimeTime 2": null, // return the largest prime factor of a number
   "RateMyPix.Auth": null,
   "(The Labyrinth)": null,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
