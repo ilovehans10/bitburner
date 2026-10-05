@@ -124,6 +124,6 @@ function fresh_install(auth_details: DarknetServerDetails): string[] {
 }
 
 function overflow(auth_details: DarknetServerDetails): string[] {
-  const overflow_password = ["1".repeat(auth_details.passwordLength)];
+  const overflow_password = ["11".repeat(auth_details.passwordLength)];
   return overflow_password;
 }
