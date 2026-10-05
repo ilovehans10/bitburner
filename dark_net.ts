@@ -12,7 +12,7 @@ const password_solvers = {
   "KingOfTheHill": null,
   "Laika4": null,
   "NIL": null,
-  "OctantVoxel": null, // the hint is: the password is the base 7 number 1030 in base 10
+  "OctantVoxel": null, // the hint is: the password is the base 7 number 1030 in base 10 and the data is 7,1030
   "OpenWebAccessPoint": null,
   "PHP 5.4": null, // data is digits that should be used in each permutation
   "Pr0verFl0": overflow, // the password buffer is a certain size and you have to overflow it with the same password as you entered
