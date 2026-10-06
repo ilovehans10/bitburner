@@ -127,3 +127,16 @@ function overflow(auth_details: DarknetServerDetails): string[] {
   const overflow_password = ["11".repeat(auth_details.passwordLength)];
   return overflow_password;
 }
+
+function base_conversion(base: number, convertee: number): number {
+  var accumulator = 0
+  const convertee_list = String(convertee).split("").map(a => Number(a))
+  for (const [index, digit] of convertee_list.reverse().entries()) {
+    accumulator += digit * (base ** index)
+  }
+  return accumulator
+}
+
+function range(min: number, max: number): number[] {
+  return Array.from({ length: (max - min) + 1 }, (_, i) => min + i);
+}
