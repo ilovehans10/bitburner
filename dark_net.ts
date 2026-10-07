@@ -135,7 +135,7 @@ function octant_voxel(auth_details: DarknetServerDetails) {
 
 function base_conversion(base: number, convertee: number): number {
   var accumulator = 0
-  const convertee_list = String(convertee).split("").map(a => Number(a))
+  const convertee_list = String(convertee).split("").map(Number)
   for (const [index, digit] of convertee_list.reverse().entries()) {
     accumulator += digit * (base ** index)
   }
