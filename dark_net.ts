@@ -12,7 +12,7 @@ const password_solvers = {
   "KingOfTheHill": null,
   "Laika4": null,
   "NIL": null,
-  "OctantVoxel": null, // the hint is: the password is the base 7 number 1030 in base 10 and the data is 7,1030
+  "OctantVoxel": octant_voxel,
   "OpenWebAccessPoint": null,
   "PHP 5.4": null, // data is digits that should be used in each permutation
   "Pr0verFl0": overflow, // the password buffer is a certain size and you have to overflow it with the same password as you entered
@@ -75,7 +75,7 @@ export async function main(ns: NS) {
               successful = true;
               break;
             } else {
-              console.log(attempt_result);
+              console.log(attempt_result, dark_net_server);
             }
           } catch (error) {
             ns.tprintf("%s %s: %s", dark_net_server, details.modelId, password_atempt);
@@ -126,6 +126,11 @@ function fresh_install(auth_details: DarknetServerDetails): string[] {
 function overflow(auth_details: DarknetServerDetails): string[] {
   const overflow_password = ["11".repeat(auth_details.passwordLength)];
   return overflow_password;
+}
+
+function octant_voxel(auth_details: DarknetServerDetails) {
+  const data = auth_details.data.split(",").map(Number);
+  return [base_conversion(data[0], data[1])];
 }
 
 function base_conversion(base: number, convertee: number): number {
