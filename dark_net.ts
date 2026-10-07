@@ -24,6 +24,8 @@ const password_solvers = {
   "ZeroLogon": () => { return [""]; },
 };
 
+const alpha_to_numbers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
 export async function main(ns: NS) {
 
   const debug_printing = false;
@@ -141,9 +143,13 @@ function binary_solver(auth_details: DarknetServerDetails) {
 
 function base_conversion(base: number, convertee: number): number {
   var accumulator = 0
-  const convertee_list = String(convertee).split("").map(Number)
+  const convertee_list = String(convertee).split("")
   for (const [index, digit] of convertee_list.reverse().entries()) {
-    accumulator += digit * (base ** index)
+    var digit_number: number = Number(digit)
+    if (isNaN(digit_number)) {
+      digit_number = alpha_to_numbers.indexOf(digit) + 10
+    }
+    accumulator += digit_number * (base ** index)
   }
   return accumulator
 }
