@@ -1,7 +1,7 @@
 import { NS, DarknetServerDetails } from "@ns";
 
 const password_solvers = {
-  "110100100": null,
+  "110100100": binary_solver,
   "AccountsManager_4.2": null, // given a number range and guess all numbers in that range
   "BellaCuore": null, // the data is a string represending a number in romal numerials: CDLXXVIII
   "CloudBlare(tm)": cloud_blare,
@@ -131,6 +131,11 @@ function overflow(auth_details: DarknetServerDetails): string[] {
 function octant_voxel(auth_details: DarknetServerDetails) {
   const data = auth_details.data.split(",").map(Number);
   return [base_conversion(data[0], data[1])];
+}
+
+function binary_solver(auth_details: DarknetServerDetails) {
+  console.log(auth_details.data.split(" ").map(a => base_conversion(2, Number(a))).join())
+  return [auth_details.data.split(" ").map(a => String.fromCharCode(base_conversion(2, Number(a)))).join()];
 }
 
 function base_conversion(base: number, convertee: number): number {
