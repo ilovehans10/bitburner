@@ -3,10 +3,11 @@ import { NS, DarknetServerDetails } from "@ns";
 const password_solvers = {
   "110100100": binary_solver,
   "AccountsManager_4.2": null, // given a number range and guess all numbers in that range
-  "BellaCuore": null, // the data is a string represending a number in romal numerials: CDLXXVIII
+  "BellaCuore": null, // the data is a string represending a number in romal numerials: CDLXXVIII or a range CDLXXXVII,DCXCV
   "CloudBlare(tm)": cloud_blare,
   "DeepGreen": null,
   "DeskMemo_3.1": desk_memo,
+  "EuroZone Free": null,
   "Factori-Os": null, // Guess numbers of a certain length
   "FreshInstall_1.0": fresh_install,
   "KingOfTheHill": null,
