@@ -16,7 +16,7 @@ const password_solvers = {
   "OctantVoxel": octant_voxel,
   "OpenWebAccessPoint": null,
   "PHP 5.4": null, // data is digits that should be used in each permutation
-  "Pr0verFl0": overflow, // the password buffer is a certain size and you have to overflow it with the same password as you entered
+  "Pr0verFl0": overflow,
   "PrimeTime 2": null, // return the largest prime factor of a number
   "RateMyPix.Auth": null,
   "(The Labyrinth)": null,
