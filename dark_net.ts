@@ -134,22 +134,22 @@ function overflow(auth_details: DarknetServerDetails): string[] {
 }
 
 function octant_voxel(auth_details: DarknetServerDetails) {
-  const data = auth_details.data.split(",").map(Number);
-  return [base_conversion(data[0], data[1])];
+  const data = auth_details.data.split(",");
+  return [base_conversion(Number(data[0]), data[1])];
 }
 
 function binary_solver(auth_details: DarknetServerDetails) {
-  console.log(auth_details.data.split(" ").map(a => base_conversion(2, Number(a))).join())
-  return [auth_details.data.split(" ").map(a => String.fromCharCode(base_conversion(2, Number(a)))).join()];
+  console.log(auth_details.data.split(" ").map(a => String.fromCharCode(base_conversion(2, a))).join())
+  return [auth_details.data.split(" ").map(a => String.fromCharCode(base_conversion(2, a))).join()];
 }
 
 function euro_zone(auth_details: DarknetServerDetails) {
   return eu_contries.filter(a => a.length == auth_details.passwordLength)
 }
 
-function base_conversion(base: number, convertee: number): number {
+function base_conversion(base: number, convertee: string): number {
   var accumulator = 0
-  const convertee_list = String(convertee).split("")
+  const convertee_list = convertee.split("")
   for (const [index, digit] of convertee_list.reverse().entries()) {
     var digit_number: number = Number(digit)
     if (isNaN(digit_number)) {
