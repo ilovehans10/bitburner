@@ -38,7 +38,7 @@ export async function main(ns: NS) {
   const files = ns.ls(ns.getHostname());
   for (const file of files) {
     if (/\.cache/.test(file)) {
-      ns.tprintf("%s", file);
+      if (debug_printing) ns.tprintf("%s", file);
       ns.dnet.openCache(file);
     }
   }
@@ -83,7 +83,7 @@ export async function main(ns: NS) {
               console.log(attempt_result, dark_net_server);
             }
           } catch (error) {
-            ns.tprintf("%s %s: %s", dark_net_server, details.modelId, password_atempt);
+            ns.tprintf("Error with: %s %s: %s", dark_net_server, details.modelId, password_atempt);
           }
         }
         if (successful) {
@@ -97,7 +97,7 @@ export async function main(ns: NS) {
       }
 
     }
-    ns.tprintf("%s", missing_solvers.join());
+    if (missing_solvers.length > 0) ns.tprintf("%s", missing_solvers.join());
     missing_solvers.map((solver) => { printed_missing_solvers.push(solver); });
     missing_solvers.length = 0; // empty the array
     await ns.asleep(5_000);
