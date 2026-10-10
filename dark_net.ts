@@ -7,7 +7,7 @@ const password_solvers = {
   "CloudBlare(tm)": cloud_blare,
   "DeepGreen": null,
   "DeskMemo_3.1": desk_memo,
-  "EuroZone Free": null,
+  "EuroZone Free": euro_zone,
   "Factori-Os": null, // Guess numbers of a certain length
   "FreshInstall_1.0": fresh_install,
   "KingOfTheHill": null,
@@ -25,6 +25,8 @@ const password_solvers = {
 };
 
 const alpha_to_numbers = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+const eu_contries = ["Austria", "Bielgium", "Bulgaria", "Croatia", "Cyprus", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Swieden"];
 
 export async function main(ns: NS) {
 
@@ -139,6 +141,10 @@ function octant_voxel(auth_details: DarknetServerDetails) {
 function binary_solver(auth_details: DarknetServerDetails) {
   console.log(auth_details.data.split(" ").map(a => base_conversion(2, Number(a))).join())
   return [auth_details.data.split(" ").map(a => String.fromCharCode(base_conversion(2, Number(a)))).join()];
+}
+
+function euro_zone(auth_details: DarknetServerDetails) {
+  return eu_contries.filter(a => a.length == auth_details.passwordLength)
 }
 
 function base_conversion(base: number, convertee: number): number {
